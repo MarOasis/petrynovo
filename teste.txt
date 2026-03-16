@@ -1,0 +1,912 @@
+"use client";
+
+import { useMemo, useState } from "react";
+
+type Linha = {
+    name: string;
+    type: "Linha de esquadria" | "Perfil" | "Acessório" | "Sistema" | "Acabamento";
+    group?: string;
+    use: string;       // pra que serve
+    why: string;       // por que usar
+    who: string;       // para quem é
+    highlights: string[]; // 2-4 bullets
+    tags: string[];    // para busca
+};
+
+const LINHAS: Linha[] = [
+    {
+        name: "Perfis 'U'",
+        type: "Perfil",
+        use: "Perfil versátil para guias, canaletas, trilhos e reforços.",
+        why: "É um coringa de obra: resolve estrutura e alinhamento com praticidade.",
+        who: "Serralheiros, montagens e aplicações do dia a dia.",
+        highlights: ["Versátil", "Coringa de estoque", "Aplicação rápida"],
+        tags: ["perfil u", "u", "guia", "canaleta", "trilho"],
+    },
+    {
+        name: "Cantoneiras",
+        type: "Perfil",
+        use: "Perfil em L para acabamento, proteção de quinas e reforço.",
+        why: "Entrega um visual mais limpo e evita desgaste em cantos e bordas.",
+        who: "Obras em geral, acabamentos e serralheria.",
+        highlights: ["Acabamento", "Proteção", "Reforço"],
+        tags: ["cantoneira", "perfil l", "quina", "acabamento"],
+    },
+    {
+        name: "Barras Chatas",
+        type: "Perfil",
+        use: "Barra para fixações, bases, suportes e estruturas leves.",
+        why: "Solução simples e confiável para detalhes de montagem.",
+        who: "Serralheria e manutenção.",
+        highlights: ["Fixação", "Estruturas leves", "Versátil"],
+        tags: ["barra chata", "fixação", "suporte"],
+    },
+    {
+        name: "Tubos Redondos",
+        type: "Perfil",
+        use: "Perfil estrutural para corrimãos, suportes e estruturas.",
+        why: "Boa resistência com estética limpa e acabamento uniforme.",
+        who: "Serralheria e estruturas em geral.",
+        highlights: ["Estrutural", "Acabamento limpo", "Versátil"],
+        tags: ["tubo redondo", "corrimão", "estrutura"],
+    },
+    {
+        name: "Tubos Quadrados",
+        type: "Perfil",
+        use: "Perfil estrutural para montagens com padrão e repetição.",
+        why: "Facilita cortes e alinhamento, ótimo para produção em escala.",
+        who: "Serralheiros e fabricantes.",
+        highlights: ["Padronização", "Escala", "Boa rigidez"],
+        tags: ["tubo quadrado", "estrutural", "padrão"],
+    },
+    {
+        name: "Tubos Retangulares",
+        type: "Perfil",
+        use: "Perfil estrutural para portões, suportes e reforços.",
+        why: "Entrega rigidez e estabilidade com ótimo custo-benefício.",
+        who: "Serralheria e estruturas.",
+        highlights: ["Rigidez", "Versátil", "Uso amplo"],
+        tags: ["tubo retangular", "estrutural", "portão"],
+    },
+    {
+        name: "Contramarcos e Conexões",
+        type: "Sistema",
+        use: "Componentes para encaixes, fixação e acabamento no vão.",
+        why: "Traz alinhamento e segurança de instalação, evitando ajustes excessivos.",
+        who: "Instalações que pedem padrão e rapidez.",
+        highlights: ["Alinhamento", "Instalação segura", "Padrão"],
+        tags: ["contramarco", "conexões", "fixação", "vão"],
+    },
+    {
+        name: "Arremates",
+        type: "Acabamento",
+        use: "Perfis e peças para fechar detalhes e dar acabamento final.",
+        why: "O acabamento certo valoriza o projeto e reduz improviso na obra.",
+        who: "Obras que buscam resultado mais premium.",
+        highlights: ["Finalização", "Visual limpo", "Detalhes"],
+        tags: ["arremate", "acabamento", "finalização"],
+    },
+    {
+        name: "Linha (sob consulta)",
+        type: "Sistema",
+        use: "Categoria para itens e soluções específicas conforme o projeto.",
+        why: "Atende necessidades fora do padrão sem comprometer compatibilidade.",
+        who: "Projetos sob medida e demandas especiais.",
+        highlights: ["Sob medida", "Complementos", "Flexível"],
+        tags: ["sob consulta", "especial", "linha"],
+    },
+
+    // ===== Linhas de portas / esquadrias =====
+    {
+        name: "Linha Portas 25/32/42",
+        type: "Linha de esquadria",
+        use: "Soluções para portas com variações de medidas e aplicações.",
+        why: "Permite escolher o conjunto ideal conforme vão, peso e acabamento.",
+        who: "Quem fabrica portas e precisa padronizar entrega.",
+        highlights: ["Variedade", "Padronização", "Aplicação prática"],
+        tags: ["portas", "25", "32", "42", "linha portas"],
+    },
+    {
+        name: "Linha Suprema",
+        type: "Linha de esquadria",
+        use: "Sistema consolidado para esquadrias residenciais e comerciais.",
+        why: "Equilíbrio entre padrão, disponibilidade e recorrência no mercado.",
+        who: "Serralheiros e fabricantes com alto giro.",
+        highlights: ["Alta recorrência", "Padrão de encaixe", "Compatibilidade"],
+        tags: ["suprema", "linha suprema", "esquadria"],
+    },
+    {
+        name: "Linha Suprema / Maxim-ar",
+        type: "Linha de esquadria",
+        use: "Suprema com solução de abertura tipo maxim-ar.",
+        why: "Ventilação com elegância e controle, mantendo padrão do sistema.",
+        who: "Projetos que pedem ventilação e acabamento.",
+        highlights: ["Ventilação", "Padrão", "Compatível"],
+        tags: ["suprema", "maxim-ar", "maximar", "maxin-ar"],
+    },
+    {
+        name: "Linha Gold",
+        type: "Linha de esquadria",
+        use: "Linha com foco em acabamento premium e conjunto bem definido.",
+        why: "Valoriza o resultado final com padrão e estética mais refinada.",
+        who: "Obras e clientes que percebem acabamento.",
+        highlights: ["Premium", "Padronização", "Resultado superior"],
+        tags: ["gold", "linha gold", "premium"],
+    },
+    {
+        name: "Linha Gold / Maxim-ar",
+        type: "Linha de esquadria",
+        use: "Gold aplicada a aberturas tipo maxim-ar.",
+        why: "Une ventilação e acabamento premium no mesmo conjunto.",
+        who: "Residencial e comercial com exigência estética.",
+        highlights: ["Ventilação", "Premium", "Conjunto completo"],
+        tags: ["gold", "maxim-ar", "maximar", "maxin-ar"],
+    },
+    {
+        name: "Trilho Modular / Gold",
+        type: "Sistema",
+        use: "Trilho modular pensado para combinações dentro da linha Gold.",
+        why: "Facilita montagem e entrega deslizamento mais consistente.",
+        who: "Quem busca padrão e eficiência na instalação.",
+        highlights: ["Modular", "Deslizamento", "Padronização"],
+        tags: ["trilho modular", "gold", "trilho"],
+    },
+    {
+        name: "Trilhos Únicos",
+        type: "Sistema",
+        use: "Trilhos específicos conforme necessidade de aplicação.",
+        why: "Quando o trilho é certo, o conjunto funciona leve e preciso.",
+        who: "Esquadrias de correr e soluções personalizadas.",
+        highlights: ["Precisão", "Movimento leve", "Aplicação específica"],
+        tags: ["trilhos", "únicos", "correr", "guia"],
+    },
+
+    // ===== Vidros / Sistemas de vidro =====
+    {
+        name: "Box Temperado",
+        type: "Sistema",
+        use: "Sistema para box com vidro temperado e acabamento adequado.",
+        why: "Traz segurança, estética e manutenção prática.",
+        who: "Banheiros residenciais e comerciais.",
+        highlights: ["Acabamento", "Segurança", "Praticidade"],
+        tags: ["box", "temperado", "banheiro"],
+    },
+    {
+        name: "Temperados 8mm",
+        type: "Sistema",
+        use: "Vidro temperado 8mm para aplicações específicas e conjuntos compatíveis.",
+        why: "Boa solução para equilibrar leveza e desempenho no conjunto.",
+        who: "Projetos e soluções que pedem espessura específica.",
+        highlights: ["Compatível", "Leve", "Aplicação comum"],
+        tags: ["temperado", "8mm", "vidro"],
+    },
+    {
+        name: "Temperados 10mm",
+        type: "Sistema",
+        use: "Vidro temperado 10mm para maior robustez conforme aplicação.",
+        why: "Melhora sensação de solidez e valor percebido no acabamento.",
+        who: "Projetos que pedem presença e firmeza.",
+        highlights: ["Robusto", "Premium", "Valor percebido"],
+        tags: ["temperado", "10mm", "vidro"],
+    },
+    {
+        name: "Pele de Vidro",
+        type: "Sistema",
+        use: "Sistema de fachada com estética contínua e visual moderno.",
+        why: "Entrega um resultado corporativo e sofisticado, com padrão visual forte.",
+        who: "Fachadas comerciais e edifícios.",
+        highlights: ["Visual contínuo", "Moderno", "Corporativo"],
+        tags: ["pele de vidro", "fachada", "vidro"],
+    },
+    {
+        name: "Pele de Vidro PVII",
+        type: "Sistema",
+        use: "Variação de sistema de pele de vidro conforme especificação PVII.",
+        why: "Opção para padronizar solução técnica e estética no projeto.",
+        who: "Obras com especificação definida.",
+        highlights: ["Padronização", "Sistema definido", "Estética premium"],
+        tags: ["pvii", "pele de vidro", "fachada"],
+    },
+
+    // ===== Arquitetura / sombreamento / fechamento =====
+    {
+        name: "Brises",
+        type: "Acabamento",
+        use: "Elementos para sombreamento e linguagem arquitetônica.",
+        why: "Controla luz/temperatura e eleva o design da fachada.",
+        who: "Arquitetura e obras com foco estético.",
+        highlights: ["Sombreamento", "Design", "Conforto"],
+        tags: ["brise", "brises", "fachada", "sombra"],
+    },
+    {
+        name: "Cercas e Portões",
+        type: "Sistema",
+        use: "Soluções para fechamento com estética e estrutura.",
+        why: "Combina segurança e acabamento com opções de design.",
+        who: "Residencial, comercial e condomínios.",
+        highlights: ["Segurança", "Estrutura", "Visual"],
+        tags: ["cerca", "portão", "fechamento"],
+    },
+    {
+        name: "Lambris",
+        type: "Acabamento",
+        use: "Revestimento/forro decorativo com visual moderno.",
+        why: "Valoriza o ambiente com estética premium (inclusive amadeirado).",
+        who: "Interiores, fachadas e detalhes.",
+        highlights: ["Premium", "Amadeirado", "Design"],
+        tags: ["lambris", "revestimento", "amadeirado"],
+    },
+    {
+        name: "Ripados",
+        type: "Acabamento",
+        use: "Elementos ripados para estética e composição de ambientes.",
+        why: "Cria sensação de arquitetura ‘assinada’ com efeito visual forte.",
+        who: "Interiores e fachadas.",
+        highlights: ["Estética", "Arquitetura", "Valor percebido"],
+        tags: ["ripado", "ripados", "decor", "fachada"],
+    },
+    {
+        name: "Venezianas",
+        type: "Sistema",
+        use: "Soluções com ventilação e controle de passagem de ar/luz.",
+        why: "Une conforto e privacidade sem perder estética.",
+        who: "Residencial e áreas técnicas.",
+        highlights: ["Ventilação", "Privacidade", "Conforto"],
+        tags: ["veneziana", "venezianas", "ventilação"],
+    },
+    {
+        name: "Policarbonato",
+        type: "Sistema",
+        use: "Material leve para coberturas e fechamentos com boa passagem de luz.",
+        why: "Ótimo custo-benefício para áreas externas e proteção.",
+        who: "Coberturas, pergolados e fechamentos.",
+        highlights: ["Leve", "Boa luz", "Prático"],
+        tags: ["policarbonato", "cobertura", "fechamento"],
+    },
+    {
+        name: "Gradil",
+        type: "Sistema",
+        use: "Fechamento com padrão visual e segurança.",
+        why: "Entrega organização estética e proteção com montagem previsível.",
+        who: "Condomínios, empresas e áreas externas.",
+        highlights: ["Segurança", "Padrão visual", "Durável"],
+        tags: ["gradil", "fechamento", "segurança"],
+    },
+    {
+        name: "Fachada Cortina",
+        type: "Sistema",
+        use: "Sistema de fachada com estética moderna e composição de grandes vãos.",
+        why: "Eleva a apresentação do prédio e reforça o visual corporativo.",
+        who: "Obras comerciais e fachadas maiores.",
+        highlights: ["Moderna", "Corporativa", "Grandes vãos"],
+        tags: ["fachada cortina", "fachada", "cortina"],
+    },
+    {
+        name: "Diversos",
+        type: "Sistema",
+        use: "Categoria para itens complementares e necessidades variadas.",
+        why: "Resolve demandas rápidas sem perder padrão e compatibilidade.",
+        who: "Reposições, ajustes e complementos.",
+        highlights: ["Complementos", "Reposição", "Flexível"],
+        tags: ["diversos", "complementos", "reposições"],
+    },
+
+    // ===== Sistemas Perfetta =====
+    {
+        name: "Perfetta 35",
+        type: "Linha de esquadria",
+        use: "Sistema Perfetta com foco em soluções equilibradas e padronizadas.",
+        why: "Boa opção para manter padrão de montagem e acabamento.",
+        who: "Fabricação recorrente e reposição.",
+        highlights: ["Padronização", "Conjunto confiável", "Acabamento"],
+        tags: ["perfetta 35", "perfetta", "esquadria"],
+    },
+    {
+        name: "Perfetta 40 - Porta Camarão",
+        type: "Linha de esquadria",
+        use: "Solução Perfetta para porta tipo camarão (dobrável).",
+        why: "Aproveita espaço e entrega um resultado funcional e elegante.",
+        who: "Ambientes que pedem otimização de abertura.",
+        highlights: ["Otimiza espaço", "Funcional", "Elegante"],
+        tags: ["perfetta 40", "porta camarão", "camarão"],
+    },
+    {
+        name: "Perfetta 45",
+        type: "Linha de esquadria",
+        use: "Sistema Perfetta 45 para soluções com padrão e acabamento superior.",
+        why: "Equilíbrio entre estética e previsibilidade no conjunto.",
+        who: "Obras que pedem resultado mais refinado.",
+        highlights: ["Acabamento", "Padrão", "Confiável"],
+        tags: ["perfetta 45", "perfetta"],
+    },
+    {
+        name: "Perfetta 45 - Bicolor",
+        type: "Linha de esquadria",
+        use: "Perfetta 45 com proposta estética bicolor.",
+        why: "Valoriza o design e combina com projetos contemporâneos.",
+        who: "Arquitetura e obras com foco visual.",
+        highlights: ["Estética", "Bicolor", "Premium"],
+        tags: ["perfetta 45", "bicolor", "estética"],
+    },
+    {
+        name: "Perfetta 45 - Oscilo Batente",
+        type: "Linha de esquadria",
+        use: "Solução com abertura oscilo-batente dentro do sistema Perfetta 45.",
+        why: "Conforto e ventilação com sensação de produto premium.",
+        who: "Projetos residenciais e comerciais de padrão superior.",
+        highlights: ["Conforto", "Ventilação", "Premium"],
+        tags: ["perfetta 45", "oscilo", "batente", "oscilo batente"],
+    },
+    {
+        name: "Perfetta 45 - Maxim-ar e Fixo",
+        type: "Linha de esquadria",
+        use: "Conjunto com maxim-ar e módulos fixos na Perfetta 45.",
+        why: "Equilibra ventilação e estética com composição elegante.",
+        who: "Projetos que pedem modulação e padrão.",
+        highlights: ["Modulação", "Ventilação", "Estética"],
+        tags: ["perfetta 45", "maxim-ar", "fixo", "maxin-ar"],
+    },
+    {
+        name: "Perfetta 45 - Porta de Giro",
+        type: "Linha de esquadria",
+        use: "Perfetta 45 aplicada em porta de giro com padrão e acabamento.",
+        why: "Passagem sólida, elegante e com sensação premium.",
+        who: "Entradas e ambientes com destaque.",
+        highlights: ["Sólida", "Elegante", "Premium"],
+        tags: ["perfetta 45", "porta de giro", "giro"],
+    },
+    {
+        name: "Perfetta 45 - Pivotante",
+        type: "Linha de esquadria",
+        use: "Porta pivotante com sistema Perfetta 45.",
+        why: "Entrega impacto visual e presença no projeto.",
+        who: "Entradas e projetos autorais.",
+        highlights: ["Impacto visual", "Presença", "Premium"],
+        tags: ["perfetta 45", "pivotante", "porta pivotante"],
+    },
+    {
+        name: "Perfetta 55",
+        type: "Linha de esquadria",
+        use: "Sistema Perfetta 55 para soluções mais robustas.",
+        why: "Indicado quando o projeto pede mais presença e solidez.",
+        who: "Obras com maior exigência de conjunto.",
+        highlights: ["Robustez", "Solidez", "Padrão"],
+        tags: ["perfetta 55", "perfetta"],
+    },
+    {
+        name: "Perfetta 75",
+        type: "Linha de esquadria",
+        use: "Sistema Perfetta 75 para aplicações de maior porte.",
+        why: "Pensado para projetos mais exigentes e composições marcantes.",
+        who: "Projetos premium e vãos maiores.",
+        highlights: ["Maior porte", "Premium", "Presença"],
+        tags: ["perfetta 75", "perfetta", "vãos maiores"],
+    },
+    {
+        name: "Perfetta - Integrada",
+        type: "Sistema",
+        use: "Soluções integradas dentro do ecossistema Perfetta.",
+        why: "Padroniza o conjunto e facilita manutenção e reposição.",
+        who: "Quem quer previsibilidade e recorrência.",
+        highlights: ["Integração", "Padronização", "Reposição"],
+        tags: ["perfetta", "integrada", "sistema"],
+    },
+    {
+        name: "Perfetta - Complementos",
+        type: "Acessório",
+        use: "Componentes complementares para fechar o conjunto Perfetta.",
+        why: "O complemento certo melhora encaixe, acabamento e funcionamento.",
+        who: "Fabricação e ajustes finos de instalação.",
+        highlights: ["Acabamento", "Compatibilidade", "Funcionamento"],
+        tags: ["perfetta", "complementos", "acessórios"],
+    },
+    {
+        name: "Perfetta Minimalista",
+        type: "Linha de esquadria",
+        use: "Sistema com linguagem mais clean e estética minimalista.",
+        why: "Ideal para projetos modernos, com visual leve e sofisticado.",
+        who: "Arquitetura contemporânea.",
+        highlights: ["Minimalista", "Clean", "Sofisticado"],
+        tags: ["perfetta minimalista", "minimalista", "clean"],
+    },
+
+    // ===== Complementos de vidro =====
+    {
+        name: "Vidro | Baguete | Gaxeta",
+        type: "Acessório",
+        use: "Itens essenciais para fixação, vedação e acabamento do vidro.",
+        why: "Garante firmeza, reduz folgas e melhora o fechamento do conjunto.",
+        who: "Instalações e fabricação com padrão.",
+        highlights: ["Vedação", "Fixação", "Acabamento"],
+        tags: ["vidro", "baguete", "gaxeta", "vedação"],
+    },
+
+    // ===== Conexões =====
+    {
+        name: "Conexões",
+        type: "Acessório",
+        use: "Peças para união, fixação e montagem de perfis e sistemas.",
+        why: "Padroniza a montagem e reduz improviso na obra.",
+        who: "Fabricação, instalação e manutenção.",
+        highlights: ["União", "Montagem", "Padrão"],
+        tags: ["conexões", "união", "fixação", "montagem"],
+    },
+];
+const ACESSORIOS: Linha[] = [
+    // ===== TEMPERADO / VIDRO =====
+    {
+        name: "Ferragens para Temperado",
+        type: "Acessório",
+        group: "Temperado & Vidro",
+        use: "Conjunto de ferragens para montagem e acabamento em vidro temperado.",
+        why: "Quando a ferragem é compatível, o conjunto fica firme, alinhado e com sensação premium.",
+        who: "Box, portas, fechamentos e soluções em temperado.",
+        highlights: ["Compatibilidade", "Acabamento limpo", "Montagem segura"],
+        tags: ["ferragens", "temperado", "vidro", "box"],
+    },
+    {
+        name: "Pele de Vidro (componentes)",
+        type: "Sistema",
+        group: "Temperado & Vidro",
+        use: "Complementos e itens do sistema para soluções de pele de vidro.",
+        why: "Padroniza o visual e melhora o alinhamento/encaixe do conjunto.",
+        who: "Fachadas e fechamentos com estética contínua.",
+        highlights: ["Padrão visual", "Alinhamento", "Sistema completo"],
+        tags: ["pele de vidro", "fachada", "componentes", "vidro"],
+    },
+    {
+        name: "Vidro | Baguete | Gaxeta",
+        type: "Acessório",
+        group: "Temperado & Vidro",
+        use: "Itens essenciais para fixação, vedação e acabamento do vidro.",
+        why: "Reduz folgas, melhora vedação e aumenta a qualidade percebida no fechamento.",
+        who: "Instalação e fabricação com padrão.",
+        highlights: ["Vedação", "Fixação", "Acabamento"],
+        tags: ["vidro", "baguete", "gaxeta", "vedação"],
+    },
+
+    // ===== FIXAÇÃO / CONEXÕES =====
+    {
+        name: "Chumbadores",
+        type: "Acessório",
+        group: "Fixação & Montagem",
+        use: "Fixação estrutural para bases, suportes e ancoragens.",
+        why: "Traz segurança na instalação e reduz risco de folga com o tempo.",
+        who: "Obras, estruturas e ancoragens.",
+        highlights: ["Segurança", "Ancoragem", "Instalação firme"],
+        tags: ["chumbador", "fixação", "ancoragem"],
+    },
+    {
+        name: "Conexões Allen / Pressão / Plástico / Esquadro",
+        type: "Acessório",
+        group: "Fixação & Montagem",
+        use: "Conectores para unir perfis com padrão e rapidez.",
+        why: "Deixa a montagem limpa e previsível, evitando improviso.",
+        who: "Fabricação, montagem e padronização.",
+        highlights: ["Montagem rápida", "Padrão", "Acabamento"],
+        tags: ["conexão", "allen", "pressão", "plástico", "esquadro"],
+    },
+    {
+        name: "Conexão 'L' / 'U'",
+        type: "Acessório",
+        group: "Fixação & Montagem",
+        use: "Conectores para união e reforço em ângulos e canaletas.",
+        why: "Ajuda no alinhamento e fortalece pontos de união.",
+        who: "Estruturas e montagens em geral.",
+        highlights: ["União firme", "Alinhamento", "Reforço"],
+        tags: ["conexão l", "conexão u", "união", "reforço"],
+    },
+    {
+        name: "Parafusos / Rebites / Buchas / Arruelas",
+        type: "Acessório",
+        group: "Fixação & Montagem",
+        use: "Fixadores e consumíveis para montagem e acabamento.",
+        why: "O fixador certo evita folga e melhora o padrão final.",
+        who: "Instalação, fabricação e manutenção.",
+        highlights: ["Essencial", "Padronização", "Reposição fácil"],
+        tags: ["parafuso", "rebite", "bucha", "arruela", "fixador"],
+    },
+    {
+        name: "Tampas / Tapa Furo / Presilha / Arremate",
+        type: "Acabamento",
+        group: "Fixação & Montagem",
+        use: "Peças de fechamento para acabamento e proteção de detalhes.",
+        why: "Entrega visual final mais limpo e profissional.",
+        who: "Acabamento de obra e montagem.",
+        highlights: ["Finalização", "Visual limpo", "Proteção"],
+        tags: ["tampa", "tapa furo", "presilha", "arremate", "acabamento"],
+    },
+    {
+        name: "Sapata / Terminal / Suporte / Espera",
+        type: "Acessório",
+        group: "Fixação & Montagem",
+        use: "Componentes de apoio, travamento e preparação de montagem.",
+        why: "Facilita instalação e aumenta previsibilidade no encaixe.",
+        who: "Montagens estruturais e esquadrias.",
+        highlights: ["Apoio", "Instalação prática", "Estabilidade"],
+        tags: ["sapata", "terminal", "suporte", "espera", "apoio"],
+    },
+
+    // ===== VEDAÇÃO =====
+    {
+        name: "Borrachas",
+        type: "Acessório",
+        group: "Vedação",
+        use: "Vedação para reduzir folgas, ruído e entrada de poeira.",
+        why: "Melhora a sensação de qualidade imediatamente no uso.",
+        who: "Esquadrias, portas, janelas e fechamentos.",
+        highlights: ["Menos ruído", "Melhor fechamento", "Conforto"],
+        tags: ["borracha", "vedação", "ruído", "folga"],
+    },
+    {
+        name: "Fita Vedação / Fita Adesiva",
+        type: "Acessório",
+        group: "Vedação",
+        use: "Vedação e acabamento em pontos de contato e junções.",
+        why: "Ajuda a finalizar com padrão e reduz pequenas entradas/imperfeições.",
+        who: "Instalações e acabamentos.",
+        highlights: ["Vedação", "Acabamento", "Praticidade"],
+        tags: ["fita vedação", "fita adesiva", "acabamento"],
+    },
+    {
+        name: "Fita Espuma Adesiva (EVA / PVC)",
+        type: "Acessório",
+        group: "Vedação",
+        use: "Espuma para vedar, nivelar e reduzir vibração/folga.",
+        why: "Entrega toque mais “macio” e melhora o ajuste do conjunto.",
+        who: "Esquadrias, portas, aplicações gerais.",
+        highlights: ["Ajuste fino", "Vedação", "Conforto"],
+        tags: ["fita espuma", "eva", "pvc", "vedação"],
+    },
+    {
+        name: "Veda Porta / Tela Mosquiteira / Tarugo / Stretch",
+        type: "Acessório",
+        group: "Vedação",
+        use: "Itens de vedação e proteção para conforto e acabamento.",
+        why: "Melhora uso no dia a dia e reduz entrada de sujeira/insetos.",
+        who: "Residencial e comercial.",
+        highlights: ["Conforto", "Proteção", "Acabamento"],
+        tags: ["veda porta", "tela mosquiteira", "tarugo", "stretch", "vedação"],
+    },
+
+    // ===== FERRAGENS / FECHAMENTO =====
+    {
+        name: "Puxadores",
+        type: "Acessório",
+        group: "Ferragens & Fechos",
+        use: "Puxadores para portas e janelas com acabamento e ergonomia.",
+        why: "Detalhe que muda a percepção: pega firme, visual mais premium.",
+        who: "Esquadrias, móveis e aplicações diversas.",
+        highlights: ["Ergonomia", "Acabamento", "Valor percebido"],
+        tags: ["puxador", "puxadores", "acabamento"],
+    },
+    {
+        name: "Dobradiças (Sobrepor / Encaixe / Borboleta / Pivô)",
+        type: "Acessório",
+        group: "Ferragens & Fechos",
+        use: "Articulação e sustentação para portas, tampas e painéis.",
+        why: "A dobradiça correta entrega movimento suave e durabilidade.",
+        who: "Portas, portões e montagens.",
+        highlights: ["Movimento suave", "Durabilidade", "Compatibilidade"],
+        tags: ["dobradiça", "sobrepor", "encaixe", "borboleta", "pivô"],
+    },
+    {
+        name: "Fecho (Concha / Unha / Caracol)",
+        type: "Acessório",
+        group: "Ferragens & Fechos",
+        use: "Fechamentos para janelas/portas com opções de padrão e aplicação.",
+        why: "Melhora travamento e sensação de firmeza no conjunto.",
+        who: "Esquadrias e fechamentos.",
+        highlights: ["Travamento", "Firmeza", "Acabamento"],
+        tags: ["fecho concha", "fecho unha", "fecho caracol", "fecho"],
+    },
+    {
+        name: "Fechaduras",
+        type: "Acessório",
+        group: "Ferragens & Fechos",
+        use: "Fechamento com segurança e padrão para portas e acessos.",
+        why: "Entrega confiança e melhora a experiência de uso.",
+        who: "Portas residenciais e comerciais.",
+        highlights: ["Segurança", "Padrão", "Confiável"],
+        tags: ["fechadura", "segurança", "porta"],
+    },
+    {
+        name: "Ferrolhos / Tranquetas / Fecho Avião",
+        type: "Acessório",
+        group: "Ferragens & Fechos",
+        use: "Travas e fechamentos práticos para portas e esquadrias.",
+        why: "Solução simples que aumenta controle e segurança.",
+        who: "Manutenção, obras e aplicações rápidas.",
+        highlights: ["Prático", "Segurança", "Reposição"],
+        tags: ["ferrolho", "tranqueta", "fecho avião", "trava"],
+    },
+    {
+        name: "Roldana com Cavalete",
+        type: "Acessório",
+        group: "Ferragens & Fechos",
+        use: "Movimentação para sistemas de correr com suporte e estabilidade.",
+        why: "Quando a roldana é boa, a porta corre leve e sem reclamação.",
+        who: "Portas e janelas de correr.",
+        highlights: ["Movimento leve", "Estabilidade", "Menos ruído"],
+        tags: ["roldana", "cavalete", "correr", "movimento"],
+    },
+
+    // ===== PORTÃO / ESTRUTURA =====
+    {
+        name: "Portão / Batente / Ancoragem / Alavanca",
+        type: "Sistema",
+        group: "Portões & Estruturas",
+        use: "Itens e soluções para montagem, apoio e funcionamento de portões.",
+        why: "Melhora alinhamento, trava e durabilidade no uso diário.",
+        who: "Serralheria, estruturas e portões.",
+        highlights: ["Durabilidade", "Alinhamento", "Funcionamento"],
+        tags: ["portão", "batente", "ancoragem", "alavanca"],
+    },
+
+    // ===== KITS POR LINHA =====
+    {
+        name: "Kit Cremona (Suprema / Gold / INT / EXT / Embutir)",
+        type: "Acessório",
+        group: "Kits por Linha",
+        use: "Kits de fechamento e acionamento para conjuntos compatíveis por linha.",
+        why: "Padroniza o conjunto e facilita manutenção e reposição.",
+        who: "Quem fabrica e instala com padrão por linha.",
+        highlights: ["Compatibilidade", "Padronização", "Reposição"],
+        tags: ["kit cremona", "suprema", "gold", "interno", "externo", "embutir"],
+    },
+    {
+        name: "Linha 25 / 30 / 42 (acessórios compatíveis)",
+        type: "Acessório",
+        group: "Kits por Linha",
+        use: "Seleção de acessórios compatíveis com linhas tradicionais do mercado.",
+        why: "Ajuda a manter padrão e reduzir erro ao comprar reposição.",
+        who: "Obras com recorrência e manutenção.",
+        highlights: ["Compatível", "Reposição fácil", "Padrão"],
+        tags: ["linha 25", "linha 30", "linha 42", "compatível"],
+    },
+    {
+        name: "Linha Suprema (acessórios compatíveis)",
+        type: "Acessório",
+        group: "Kits por Linha",
+        use: "Acessórios voltados ao padrão do sistema Suprema.",
+        why: "Mantém repetição de montagem e acabamento em pedidos futuros.",
+        who: "Fabricação e reposição com padrão.",
+        highlights: ["Padrão", "Recorrência", "Compatibilidade"],
+        tags: ["suprema", "acessórios suprema", "compatível"],
+    },
+    {
+        name: "Linha Gold (acessórios compatíveis)",
+        type: "Acessório",
+        group: "Kits por Linha",
+        use: "Acessórios compatíveis com a linha Gold e seus conjuntos.",
+        why: "Eleva acabamento e deixa o conjunto mais “premium” no uso.",
+        who: "Projetos com exigência estética.",
+        highlights: ["Premium", "Compatível", "Acabamento"],
+        tags: ["gold", "acessórios gold", "compatível"],
+    },
+    {
+        name: "Integrada (acessórios e complementos)",
+        type: "Sistema",
+        group: "Kits por Linha",
+        use: "Complementos voltados a soluções integradas conforme o conjunto.",
+        why: "Organiza o sistema e facilita manutenção, reposição e padronização.",
+        who: "Projetos que usam módulos integrados.",
+        highlights: ["Integração", "Padronização", "Reposição"],
+        tags: ["integrada", "complementos", "sistema"],
+    },
+
+    // ===== CONSUMÍVEIS =====
+    {
+        name: "Silicone / Adesivos / Aplicações / Fitas / Estopas",
+        type: "Acessório",
+        group: "Consumíveis",
+        use: "Consumíveis para vedação, fixação leve e acabamento na instalação.",
+        why: "Faz diferença no final: vedação correta e acabamento mais limpo.",
+        who: "Instalações e finalizações.",
+        highlights: ["Acabamento", "Vedação", "Praticidade"],
+        tags: ["silicone", "adesivo", "fita", "estopa", "consumíveis"],
+    },
+];
+const ALL_ITEMS = [...LINHAS, ...ACESSORIOS];
+
+
+
+const FILTERS: Array<Linha["type"] | "Tudo"> = [
+    "Tudo",
+    "Linha de esquadria",
+    "Sistema",
+    "Perfil",
+    "Acessório",
+    "Acabamento",
+];
+
+export default function LinhasPage() {
+    const [q, setQ] = useState("");
+    const [filter, setFilter] = useState<(typeof FILTERS)[number]>("Tudo");
+
+    const filtered = useMemo(() => {
+        const qq = q.trim().toLowerCase();
+        return ALL_ITEMS.filter((x) => {
+            const okType = filter === "Tudo" ? true : x.type === filter;
+            if (!okType) return false;
+            if (!qq) return true;
+
+            const hay = [
+                x.name,
+                x.type,
+                x.use,
+                x.why,
+                x.who,
+                ...x.highlights,
+                ...x.tags,
+            ]
+                .join(" ")
+                .toLowerCase();
+
+            return hay.includes(qq);
+        });
+    }, [q, filter]);
+
+    return (
+        <main className="pb-14">
+            <div className="container">
+                {/* HERO */}
+                <section className="mt-10">
+                    <div className="relative overflow-hidden rounded-3xl bg-neutral-950 ring-1 ring-white/10">
+                        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_circle_at_30%_20%,rgba(16,185,129,.18),transparent_60%)]" />
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+
+                        <div className="relative px-6 py-10 sm:px-10 sm:py-14">
+                            <p className="text-xs font-extrabold tracking-[0.22em] uppercase text-emerald-200/70">
+                                Linhas & Perfis
+                            </p>
+
+                            <h1 className="mt-3 text-3xl sm:text-5xl font-black tracking-tight">
+                                Conheça as linhas que a Petry trabalha — e saiba qual escolher.
+                            </h1>
+
+                            <p className="mt-4 max-w-3xl text-sm sm:text-base text-neutral-300">
+                                A linha certa evita erro, melhora acabamento e deixa a obra previsível. Aqui você vê
+                                para que serve cada linha/perfil e quando vale usar.
+                            </p>
+
+                            {/* Busca + filtro */}
+                            <div className="mt-7 grid gap-3 sm:grid-cols-[1fr_auto] items-center">
+                                <div className="rounded-2xl bg-white/5 ring-1 ring-white/10 px-4 py-3">
+                                    <input
+                                        value={q}
+                                        onChange={(e) => setQ(e.target.value)}
+                                        placeholder="Buscar: Gold, Suprema, Cantoneira, Tubo, Vedação..."
+                                        className="w-full bg-transparent outline-none text-sm text-white placeholder:text-white/35"
+                                    />
+                                </div>
+
+                                <div className="flex gap-2 overflow-x-auto">
+                                    {FILTERS.map((t) => (
+                                        <button
+                                            key={t}
+                                            onClick={() => setFilter(t)}
+                                            className={[
+                                                "shrink-0 rounded-2xl px-4 py-3 text-sm font-extrabold transition",
+                                                filter === t
+                                                    ? "bg-emerald-500 text-neutral-950"
+                                                    : "bg-white/5 ring-1 ring-white/10 text-white hover:bg-white/10",
+                                            ].join(" ")}
+                                        >
+                                            {t}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="mt-5 text-xs text-white/50">
+                                Mostrando <span className="text-white/80 font-bold">{filtered.length}</span> itens
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* GRID */}
+                <section className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {filtered.map((x) => (
+                        <article
+                            key={x.name}
+                            className="relative overflow-hidden rounded-3xl bg-white/5 ring-1 ring-white/10 hover:ring-white/20 transition"
+                        >
+                            {/* glow */}
+                            <div className="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition bg-[radial-gradient(600px_circle_at_25%_20%,rgba(16,185,129,.16),transparent_55%)]" />
+
+                            <div className="relative p-6">
+                                <p className="text-xs font-extrabold tracking-[0.22em] uppercase text-emerald-200/70">
+                                    {x.type}
+                                </p>
+                                {x.group && (
+                                    <p className="mt-1 text-[11px] font-extrabold tracking-[0.22em] uppercase text-white/45">
+                                        {x.group}
+                                    </p>
+                                )}
+                                <h3 className="mt-2 text-xl font-black tracking-tight">
+                                    {x.name}
+                                </h3>
+
+                                <div className="mt-4 space-y-3 text-sm text-neutral-300">
+                                    <p>
+                                        <span className="text-white/85 font-bold">Para que serve:</span>{" "}
+                                        {x.use}
+                                    </p>
+                                    <p>
+                                        <span className="text-white/85 font-bold">Por que usar:</span>{" "}
+                                        {x.why}
+                                    </p>
+                                    <p>
+                                        <span className="text-white/85 font-bold">Ideal para:</span>{" "}
+                                        {x.who}
+                                    </p>
+                                </div>
+
+                                <div className="mt-5 flex flex-wrap gap-2">
+                                    {x.highlights.slice(0, 4).map((h) => (
+                                        <span
+                                            key={h}
+                                            className="rounded-full bg-black/45 ring-1 ring-white/10 px-3 py-1 text-[11px] font-extrabold tracking-[0.18em] uppercase text-white/85"
+                                        >
+                                            {h}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <div className="mt-6 h-px w-full bg-gradient-to-r from-emerald-400/25 via-white/10 to-transparent" />
+
+                                <div className="mt-4 flex gap-2">
+                                    <a
+                                        href="/contato"
+                                        className="flex-1 rounded-2xl bg-emerald-500 px-4 py-3 text-center text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
+                                    >
+                                        Pedir indicação →
+                                    </a>
+                                    <a
+                                        href="/#catalogos"
+                                        className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-4 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"
+                                    >
+                                        Catálogo
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </section>
+
+                {/* CTA final */}
+                <section className="mt-14">
+                    <div className="rounded-3xl bg-emerald-950/20 ring-1 ring-white/10 p-7 sm:p-10">
+                        <p className="text-xs font-extrabold tracking-[0.22em] uppercase text-emerald-200/70">
+                            Não sabe qual escolher?
+                        </p>
+                        <h3 className="mt-2 text-2xl sm:text-4xl font-black tracking-tight">
+                            A Petry te ajuda na compatibilidade da linha.
+                        </h3>
+                        <p className="mt-2 text-sm sm:text-base text-neutral-300 max-w-3xl">
+                            Me diga o tipo de esquadria/obra e o que você quer (acabamento, custo, vedação, giro).
+                            A gente indica a linha e os acessórios certos.
+                        </p>
+
+                        <div className="mt-6 flex flex-wrap gap-3">
+                            <a
+                                href="/contato"
+                                className="rounded-2xl bg-emerald-500 px-6 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
+                            >
+                                Falar com a Petry →
+                            </a>
+                            <a
+                                href="/#catalogos"
+                                className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"
+                            >
+                                Baixar catálogo →
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    );
+}

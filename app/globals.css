@@ -1,0 +1,370 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ===== Diferenciais Circle Animations ===== */
+@keyframes clSlowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes clGlowPulse {
+  0% {
+    box-shadow:
+      0 0 0 10px rgba(16, 185, 129, .06),
+      0 0 60px rgba(16, 185, 129, .10),
+      0 0 120px rgba(16, 185, 129, .08);
+    opacity: .85;
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 16px rgba(16, 185, 129, .09),
+      0 0 90px rgba(16, 185, 129, .16),
+      0 0 170px rgba(16, 185, 129, .12);
+    opacity: 1;
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 10px rgba(16, 185, 129, .06),
+      0 0 60px rgba(16, 185, 129, .10),
+      0 0 120px rgba(16, 185, 129, .08);
+    opacity: .85;
+  }
+}
+
+/* classes utilitárias */
+.cl-spin-slow {
+  animation: clSlowSpin 22s linear infinite;
+}
+
+.cl-glow-pulse {
+  animation: clGlowPulse 2.6s ease-in-out infinite;
+}
+
+.pageIn {
+  animation: pageIn 260ms ease both;
+}
+
+::selection {
+  background: rgba(16,185,129,.28);
+}
+
+/* ===== Linhas Marquee (ticker) ===== */
+@keyframes clMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.cl-marquee {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+/* track (sempre) */
+.cl-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: clMarquee 32s linear infinite;
+  /* velocidade (maior = mais lento) */
+  will-change: transform;
+}
+
+.cl-marquee-track > * {
+  flex: 0 0 auto;
+}
+
+
+.cl-marquee:hover .cl-marquee-track {
+  animation-play-state: paused;
+}
+
+
+/* @media (prefers-reduced-motion: reduce) {
+  .cl-marquee-track {
+    animation: none;
+  }
+} */
+/* reduz movimento se preferir */
+@media (prefers-reduced-motion: reduce) {
+  .cl-marquee-track {
+    animation: none !important;
+  }
+
+  .cl-grain {
+    animation: none !important;
+  }
+
+  .cl-metal::after {
+    transition: none !important;
+  }
+}
+
+/* ===== Estilo premium dos “pills” (só texto) ===== */
+.cl-pill {
+  flex: 0 0 auto;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .10);
+
+  /* tipografia luxo */
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255, 255, 255, .85);
+
+  /* sensação premium */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.cl-pill:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, .06);
+  border-color: rgba(255, 255, 255, .18);
+}
+/* destaque tipo “premium” (alguns itens) */
+.cl-pill--hi {
+  background: rgba(16, 185, 129, .12);
+  border-color: rgba(16, 185, 129, .25);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, .40),
+    0 0 0 8px rgba(16, 185, 129, .06);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.01);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Crossfade premium (blur + zoom leve) */
+.cl-xfade-in {
+  animation: clXFadeIn .78s cubic-bezier(.2, .85, .2, 1) both;
+  will-change: opacity, filter, transform;
+}
+
+@keyframes clXFadeIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+/* ===== CoresSection: premium swatches ===== */
+.cl-swatch-row {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* mobile: vira carrossel horizontal */
+@media (max-width: 1024px) {
+  .cl-swatch-row {
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cl-swatch-row::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .cl-swatch-row::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .12);
+    border-radius: 999px;
+  }
+}
+
+.cl-swatch-item {
+  flex: 1 0 140px;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px 12px;
+  border-radius: 24px;
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+  scroll-snap-align: start;
+}
+
+.cl-swatch-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, .03);
+}
+
+.cl-swatch {
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  position: relative;
+  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 0 0 10px rgba(255, 255, 255, .08);
+}
+
+.cl-swatch::after {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .18), transparent 55%);
+  opacity: .55;
+  pointer-events: none;
+}
+
+.cl-swatch-name {
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255, 255, 255, .88);
+}
+
+.cl-swatch-item.is-active {
+  background: rgba(255, 255, 255, .04);
+  box-shadow: 0 14px 50px rgba(0, 0, 0, .35);
+}
+
+.cl-swatch-item.is-active .cl-swatch {
+  transform: scale(1.06);
+}
+
+
+/* grain overlay LINHAS*/
+@keyframes cl-grainMove {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  20% {
+    transform: translate3d(-2%, 1%, 0);
+  }
+
+  40% {
+    transform: translate3d(1%, -2%, 0);
+  }
+
+  60% {
+    transform: translate3d(-1%, -1%, 0);
+  }
+
+  80% {
+    transform: translate3d(2%, 1%, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.cl-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: cl-grainMove 7s steps(10) infinite;
+}
+
+/* glows (fundo sutil) */
+.cl-hero-glow {
+  background: radial-gradient(900px circle at 28% 18%, rgba(16, 185, 129, .18), transparent 60%);
+}
+
+.cl-glow-emerald {
+  background: radial-gradient(700px circle at 20% 15%, rgba(16, 185, 129, .16), transparent 60%);
+}
+
+.cl-glow-neutral {
+  background: radial-gradient(700px circle at 20% 15%, rgba(255, 255, 255, .08), transparent 60%);
+}
+
+/* “metal / alumínio escovado” nos cards LINHAS*/
+.cl-metal {
+  position: relative;
+  overflow: hidden;
+}
+
+.cl-metal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, .12) 35%, transparent 70%),
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, .05) 0px,
+      rgba(255, 255, 255, .05) 1px,
+      transparent 1px,
+      transparent 5px);
+  transform: translateZ(0);
+}
+
+.cl-metal::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(260px circle at 18% 22%, rgba(1, 92, 31, 0.89), transparent 20%);
+  transition: opacity .35s ease;
+}
+
+.cl-metal:hover::after {
+  opacity: 1;
+}
+
+@keyframes clSoftFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.cl-float-slow {
+  animation: clSoftFloat 7s ease-in-out infinite;
+}
