@@ -167,7 +167,7 @@ const badgeClass = error
 
 const sourceLabel =
   quote?.source === "currencyapi"
-    ? "CurrencyAPI"
+    ? "API"
     : quote?.source
       ? quote.source
       : "Mercado";
