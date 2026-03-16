@@ -1,41 +1,52 @@
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function GET() {
     try {
-        const url = "https://economia.awesomeapi.com.br/json/last/USD-BRL";
+        const apiKey = process.env.EXCHANGERATE_API_KEY;
 
-        const res = await fetch(url, {
-            // atualiza “quase em tempo real” (na prática 1 min de cache sem key)
-            next: { revalidate: 60 },
-        });
-
-        if (!res.ok) {
-            return NextResponse.json({ error: "Falha ao buscar cotação" }, { status: 502 });
+        if (!apiKey) {
+            return NextResponse.json(
+                { error: "Chave da ExchangeRate-API não configurada" },
+                { status: 500 }
+            );
         }
 
-        const data = await res.json();
-        const it = data?.USDBRL;
-
-        const bid = Number(it?.bid);
-        const pctChange = Number(it?.pctChange);
-        const varBid = Number(it?.varBid);
-        const high = Number(it?.high);
-        const low = Number(it?.low);
-        const timestamp = Number(it?.timestamp);
-
-        if (!Number.isFinite(bid)) {
-            return NextResponse.json({ error: "Resposta inválida da cotação" }, { status: 502 });
-        }
-
-        return NextResponse.json(
-            { bid, pctChange, varBid, high, low, timestamp },
+        const res = await fetch(
+            `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`,
             {
-                headers: {
-                    "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
-                },
+                next: { revalidate: 3600 },
+                headers: { Accept: "application/json" },
             }
         );
-    } catch {
+
+        const data = await res.json();
+
+        if (!res.ok || data?.result !== "success") {
+            return NextResponse.json(
+                { error: "Falha ao buscar cotação", details: data },
+                { status: 502 }
+            );
+        }
+
+        const bid = Number(data?.conversion_rates?.BRL);
+
+        if (!Number.isFinite(bid)) {
+            return NextResponse.json(
+                { error: "Resposta inválida da cotação" },
+                { status: 502 }
+            );
+        }
+
+        return NextResponse.json({
+            bid,
+            base: data?.base_code ?? "USD",
+            timestamp: data?.time_last_update_unix ?? null,
+            nextUpdate: data?.time_next_update_utc ?? null,
+        });
+    } catch (error) {
+        console.error("Erro ao buscar cotação:", error);
         return NextResponse.json({ error: "Erro interno" }, { status: 500 });
     }
 }
