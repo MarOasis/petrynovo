@@ -130,9 +130,9 @@ export default function InfoCards() {
     const isUp = (quote?.pctChange ?? 0) >= 0;
     
     const safePctChange = typeof quote?.pctChange === "number" ? quote.pctChange : null;
-const safeVarBid = typeof quote?.varBid === "number" ? quote.varBid : null;
-const safeHigh = typeof quote?.high === "number" ? quote.high : null;
-const safeLow = typeof quote?.low === "number" ? quote.low : null;
+    const safeVarBid = typeof quote?.varBid === "number" ? quote.varBid : null;
+    const safeHigh = typeof quote?.high === "number" ? quote.high : null;
+    const safeLow = typeof quote?.low === "number" ? quote.low : null;
 
 const statusText = error
   ? error
@@ -140,9 +140,15 @@ const statusText = error
     ? safePctChange !== null && safeVarBid !== null
       ? `${safePctChange.toFixed(2)}% (${safeVarBid.toFixed(4)})`
       : quote.lastUpdatedAt
-        ? `Atualizado em ${new Date(quote.lastUpdatedAt).toLocaleString("pt-BR")}`
+        ? `Atualizado em ${new Date(quote.lastUpdatedAt).toLocaleString("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}`
         : "Cotação carregada"
-    : "Carregando...";
+    : "Carregando cotação...";
 
 const statusColor = error
   ? "text-red-300"
@@ -150,9 +156,35 @@ const statusColor = error
     ? safePctChange >= 0
       ? "text-emerald-300"
       : "text-red-300"
-    : "text-emerald-300";
+    : "text-cyan-300";
 
-const badgeText = error ? "erro" : quote ? "online" : "ao vivo";
+const badgeText = error ? "indisponível" : quote ? "online" : "carregando";
+const badgeClass = error
+  ? "bg-red-500/10 text-red-300 ring-red-400/20"
+  : quote
+    ? "bg-emerald-500/10 text-emerald-300 ring-emerald-400/20"
+    : "bg-white/10 text-neutral-200 ring-white/15";
+
+const sourceLabel =
+  quote?.source === "currencyapi"
+    ? "CurrencyAPI"
+    : quote?.source
+      ? quote.source
+      : "Mercado";
+
+const updatedHour = quote?.lastUpdatedAt
+  ? new Date(quote.lastUpdatedAt).toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  : "—";
+
+const trendLabel =
+  safePctChange !== null
+    ? safePctChange >= 0
+      ? "Alta do dia"
+      : "Queda do dia"
+    : "Última leitura";
 
     return (
         <section className="mt-8">
@@ -221,43 +253,112 @@ const badgeText = error ? "erro" : quote ? "online" : "ao vivo";
                 </div>
 
                 {/* Card 2 (centro, “mais destacado”) */}
-                <div
+               <div
   ref={c2.ref}
   className={[
-    "lg:col-span-4 lg:-translate-y-3 bg-white/5 ring-1 ring-white/10 backdrop-blur p-5 rounded-3xl",
-    "shadow-[0_0_0_1px_rgba(255,255,255,.06),0_20px_60px_rgba(0,0,0,.45)]",
+    "relative overflow-hidden rounded-[28px] lg:col-span-4 lg:-translate-y-3",
+    "border border-white/10 bg-white/[0.06] backdrop-blur-xl p-5 md:p-6",
+    "shadow-[0_0_0_1px_rgba(255,255,255,.04),0_20px_70px_rgba(0,0,0,.45)]",
     "transition-all duration-700 ease-out will-change-transform delay-100",
     c2.inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-7 scale-[0.98]",
-    "hover:-translate-y-1 hover:bg-white/10 hover:ring-white/20",
+    "hover:-translate-y-1 hover:bg-white/[0.08] hover:border-white/15",
     "motion-reduce:transition-none motion-reduce:transform-none",
   ].join(" ")}
 >
-  <div className="flex items-center justify-between">
-    <span className="text-xs text-neutral-300">Cotação do dólar (USD/BRL)</span>
-    <span className="text-xs font-bold px-2 py-1 rounded-full bg-white/10 ring-1 ring-white/15">
+  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.16),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.10),transparent_24%)]" />
+  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+
+  <div className="relative z-10 flex items-start justify-between gap-4">
+    <div>
+      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-400">
+        Cotação do dólar
+      </p>
+      <h3 className="mt-1 text-sm font-medium text-neutral-200">
+        USD / BRL
+      </h3>
+    </div>
+
+    <span
+      className={[
+        "inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold ring-1",
+        badgeClass,
+      ].join(" ")}
+    >
+      <span className="h-2 w-2 rounded-full bg-current opacity-90" />
       {badgeText}
     </span>
   </div>
 
-  <div className="mt-3 flex items-end justify-between gap-3">
-    <div>
-      <p className="text-4xl font-black tracking-tight">
+  <div className="relative z-10 mt-6 flex items-end justify-between gap-4">
+    <div className="min-w-0">
+      <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500">
+        Valor atual
+      </p>
+
+      <p className="mt-2 text-4xl md:text-5xl font-black tracking-tight text-white">
         {quote ? formatBRL(quote.bid) : "—"}
       </p>
 
-      <p className={["mt-1 text-sm font-bold", statusColor].join(" ")}>
+      <p className={["mt-3 text-sm font-semibold", statusColor].join(" ")}>
         {statusText}
       </p>
     </div>
 
-    <div className="w-32 text-emerald-300/90">
-      <Sparkline values={hist} />
+    <div className="w-28 md:w-36 shrink-0 rounded-2xl border border-white/10 bg-black/20 p-2">
+      <div className="text-[10px] uppercase tracking-[0.18em] text-neutral-500 mb-2">
+        Tendência
+      </div>
+      <div className="text-emerald-300/90">
+        <Sparkline values={hist} />
+      </div>
     </div>
   </div>
 
-  <div className="mt-3 text-xs text-neutral-400 flex justify-between gap-3 flex-wrap">
-    <span>Máx: {safeHigh !== null ? formatBRL(safeHigh) : "—"}</span>
-    <span>Mín: {safeLow !== null ? formatBRL(safeLow) : "—"}</span>
+  <div className="relative z-10 mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
+      <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
+        Fonte
+      </p>
+      <p className="mt-1 font-semibold text-neutral-200">
+        {sourceLabel}
+      </p>
+    </div>
+
+    <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
+      <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
+        Horário
+      </p>
+      <p className="mt-1 font-semibold text-neutral-200">
+        {updatedHour}
+      </p>
+    </div>
+
+    <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
+      <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
+        Máxima
+      </p>
+      <p className="mt-1 font-semibold text-neutral-200">
+        {safeHigh !== null ? formatBRL(safeHigh) : "—"}
+      </p>
+    </div>
+
+    <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
+      <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
+        Mínima
+      </p>
+      <p className="mt-1 font-semibold text-neutral-200">
+        {safeLow !== null ? formatBRL(safeLow) : "—"}
+      </p>
+    </div>
+  </div>
+
+  <div className="relative z-10 mt-4 flex items-center justify-between text-[11px] text-neutral-500">
+    <span>{trendLabel}</span>
+    <span className="truncate">
+      {quote?.lastUpdatedAt
+        ? `Leitura registrada em ${new Date(quote.lastUpdatedAt).toLocaleDateString("pt-BR")}`
+        : "Sem registro de atualização"}
+    </span>
   </div>
 </div>
 
