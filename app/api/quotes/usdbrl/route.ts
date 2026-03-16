@@ -4,49 +4,71 @@ export const runtime = "nodejs";
 
 export async function GET() {
     try {
-        const apiKey = process.env.EXCHANGERATE_API_KEY;
+        const apiKey = process.env.CURRENCYAPI_KEY;
 
         if (!apiKey) {
             return NextResponse.json(
-                { error: "Chave da ExchangeRate-API não configurada" },
+                { error: "Chave da currencyapi não configurada" },
                 { status: 500 }
             );
         }
 
         const res = await fetch(
-            `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`,
+            "https://api.currencyapi.com/v3/latest?base_currency=USD&currencies=BRL",
             {
-                next: { revalidate: 3600 },
-                headers: { Accept: "application/json" },
+                headers: {
+                    apikey: apiKey,
+                    Accept: "application/json",
+                },
+                next: { revalidate: 60 },
             }
         );
 
         const data = await res.json();
 
-        if (!res.ok || data?.result !== "success") {
+        if (!res.ok) {
+            console.error("currencyapi error:", data);
+
             return NextResponse.json(
-                { error: "Falha ao buscar cotação", details: data },
+                {
+                    error: "Falha ao buscar cotação",
+                    details: data,
+                },
                 { status: 502 }
             );
         }
 
-        const bid = Number(data?.conversion_rates?.BRL);
+        const bid = Number(data?.data?.BRL?.value);
 
         if (!Number.isFinite(bid)) {
             return NextResponse.json(
-                { error: "Resposta inválida da cotação" },
+                {
+                    error: "Resposta inválida da cotação",
+                    raw: data,
+                },
                 { status: 502 }
             );
         }
 
-        return NextResponse.json({
-            bid,
-            base: data?.base_code ?? "USD",
-            timestamp: data?.time_last_update_unix ?? null,
-            nextUpdate: data?.time_next_update_utc ?? null,
-        });
+        return NextResponse.json(
+            {
+                bid,
+                code: "BRL",
+                source: "currencyapi",
+                lastUpdatedAt: data?.meta?.last_updated_at ?? null,
+            },
+            {
+                headers: {
+                    "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+                },
+            }
+        );
     } catch (error) {
         console.error("Erro ao buscar cotação:", error);
-        return NextResponse.json({ error: "Erro interno" }, { status: 500 });
+
+        return NextResponse.json(
+            { error: "Erro interno" },
+            { status: 500 }
+        );
     }
 }
