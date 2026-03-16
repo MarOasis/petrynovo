@@ -4,12 +4,14 @@ import { useInView } from "@/components/site/useInView";
 import { useEffect, useMemo, useState } from "react";
 
 type Quote = {
-    bid: number;
-    pctChange: number;
-    varBid: number;
-    high?: number;
-    low?: number;
-    timestamp?: number;
+  bid: number;
+  source?: string;
+  lastUpdatedAt?: string | null;
+  pctChange?: number | null;
+  varBid?: number | null;
+  high?: number | null;
+  low?: number | null;
+  timestamp?: number | null;
 };
 
 type Status = { aberto: boolean; label: string; hint: string };
@@ -126,6 +128,31 @@ export default function InfoCards() {
     const c3 = useInView<HTMLDivElement>();
 
     const isUp = (quote?.pctChange ?? 0) >= 0;
+    
+    const safePctChange = typeof quote?.pctChange === "number" ? quote.pctChange : null;
+const safeVarBid = typeof quote?.varBid === "number" ? quote.varBid : null;
+const safeHigh = typeof quote?.high === "number" ? quote.high : null;
+const safeLow = typeof quote?.low === "number" ? quote.low : null;
+
+const statusText = error
+  ? error
+  : quote
+    ? safePctChange !== null && safeVarBid !== null
+      ? `${safePctChange.toFixed(2)}% (${safeVarBid.toFixed(4)})`
+      : quote.lastUpdatedAt
+        ? `Atualizado em ${new Date(quote.lastUpdatedAt).toLocaleString("pt-BR")}`
+        : "Cotação carregada"
+    : "Carregando...";
+
+const statusColor = error
+  ? "text-red-300"
+  : safePctChange !== null
+    ? safePctChange >= 0
+      ? "text-emerald-300"
+      : "text-red-300"
+    : "text-emerald-300";
+
+const badgeText = error ? "erro" : quote ? "online" : "ao vivo";
 
     return (
         <section className="mt-8">
@@ -195,43 +222,44 @@ export default function InfoCards() {
 
                 {/* Card 2 (centro, “mais destacado”) */}
                 <div
-                    ref={c2.ref}
-                    className={[
-                        "lg:col-span-4 lg:-translate-y-3 bg-white/5 ring-1 ring-white/10 backdrop-blur p-5",
-                        "shadow-[0_0_0_1px_rgba(255,255,255,.06),0_20px_60px_rgba(0,0,0,.45)]",
-                        "transition-all duration-700 ease-out will-change-transform delay-100",
-                        c2.inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-7 scale-[0.98]",
-                        "hover:-translate-y-1 hover:bg-white/10 hover:ring-white/20",
-                        "motion-reduce:transition-none motion-reduce:transform-none",
-                    ].join(" ")}
-                >
-                    <div className="flex items-center justify-between">
-                        <span className="text-xs text-neutral-300">Cotação do dólar (USD/BRL)</span>
-                        <span className="text-xs font-bold px-2 py-1 rounded-full bg-white/10 ring-1 ring-white/15">
-                            ao vivo
-                        </span>
-                    </div>
+  ref={c2.ref}
+  className={[
+    "lg:col-span-4 lg:-translate-y-3 bg-white/5 ring-1 ring-white/10 backdrop-blur p-5 rounded-3xl",
+    "shadow-[0_0_0_1px_rgba(255,255,255,.06),0_20px_60px_rgba(0,0,0,.45)]",
+    "transition-all duration-700 ease-out will-change-transform delay-100",
+    c2.inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-7 scale-[0.98]",
+    "hover:-translate-y-1 hover:bg-white/10 hover:ring-white/20",
+    "motion-reduce:transition-none motion-reduce:transform-none",
+  ].join(" ")}
+>
+  <div className="flex items-center justify-between">
+    <span className="text-xs text-neutral-300">Cotação do dólar (USD/BRL)</span>
+    <span className="text-xs font-bold px-2 py-1 rounded-full bg-white/10 ring-1 ring-white/15">
+      {badgeText}
+    </span>
+  </div>
 
-                    <div className="mt-3 flex items-end justify-between gap-3">
-                        <div>
-                            <p className="text-4xl font-black tracking-tight">
-                                {quote ? formatBRL(quote.bid) : "—"}
-                            </p>
-                            <p className={["mt-1 text-sm font-bold", isUp ? "text-emerald-300" : "text-red-300"].join(" ")}>
-                                {error ? error : quote ? `${quote.pctChange.toFixed(2)}% (${quote.varBid.toFixed(4)})` : "Carregando..."}
-                            </p>
-                        </div>
+  <div className="mt-3 flex items-end justify-between gap-3">
+    <div>
+      <p className="text-4xl font-black tracking-tight">
+        {quote ? formatBRL(quote.bid) : "—"}
+      </p>
 
-                        <div className="w-32 text-emerald-300/90">
-                            <Sparkline values={hist} />
-                        </div>
-                    </div>
+      <p className={["mt-1 text-sm font-bold", statusColor].join(" ")}>
+        {statusText}
+      </p>
+    </div>
 
-                    <div className="mt-3 text-xs text-neutral-400 flex justify-between">
-                        <span>Máx: {quote?.high ? formatBRL(quote.high) : "—"}</span>
-                        <span>Mín: {quote?.low ? formatBRL(quote.low) : "—"}</span>
-                    </div>
-                </div>
+    <div className="w-32 text-emerald-300/90">
+      <Sparkline values={hist} />
+    </div>
+  </div>
+
+  <div className="mt-3 text-xs text-neutral-400 flex justify-between gap-3 flex-wrap">
+    <span>Máx: {safeHigh !== null ? formatBRL(safeHigh) : "—"}</span>
+    <span>Mín: {safeLow !== null ? formatBRL(safeLow) : "—"}</span>
+  </div>
+</div>
 
                 {/* Card 3 (lado direito) */}
                 <div
