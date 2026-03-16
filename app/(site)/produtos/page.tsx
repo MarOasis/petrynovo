@@ -44,7 +44,7 @@ export default function ProdutosPage() {
             { name: "Conexões", tag: "Montagem", img: "banners/produtos/conexoes.png" },
             { name: "Escovas", tag: "Vedação / Ruído", img: "banners/produtos/vedacoes.png" },
             { name: "Borrachas", tag: "Proteção e Durabilidade", img: "banners/produtos/borrachas.png" },
-            { name: "Temperados", tag: "Alta Recorrência", img: "banners/produtos/temperados.png" },
+            { name: "Temperados", tag: "Alta Recorrência", img: "banners/produtos/Temperados.png" },
           ]}
         />
 
