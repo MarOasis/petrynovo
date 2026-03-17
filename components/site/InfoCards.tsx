@@ -4,7 +4,6 @@ import { useInView } from "@/components/site/useInView";
 import { useEffect, useMemo, useState } from "react";
 
 type Quote = {
-<<<<<<< HEAD
   bid: number;
   source?: string;
   lastUpdatedAt?: string | null;
@@ -13,16 +12,6 @@ type Quote = {
   high?: number | null;
   low?: number | null;
   timestamp?: number | null;
-=======
-    bid: number;
-    source?: string;
-    lastUpdatedAt?: string | null;
-    pctChange?: number | null;
-    varBid?: number | null;
-    high?: number | null;
-    low?: number | null;
-    timestamp?: number | null;
->>>>>>> b552a3e (pronto para upar)
 };
 
 type Status = { aberto: boolean; label: string; hint: string };
