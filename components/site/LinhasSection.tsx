@@ -5,9 +5,10 @@ import { useInView } from "@/components/site/useInView";
 import BannerRotator from "@/components/site/BannerRotator";
 
 const LINHAS_BANNERS = [
-    { desktop: "/banners/linhas/c4.png", mobile: "/banners/linhas/c4.png", alt: "Linhas 1" },
+    { desktop: "/banners/linhas/c10.png", mobile: "/banners/linhas/c14.png", alt: "Linhas 1" },
     { desktop: "/banners/linhas/c5 (2).png", mobile: "/banners/linhas/c5.png", alt: "Linhas 2" },
-    { desktop: "/banners/linhas/c6.png", mobile: "/banners/linhas/c6.png", alt: "Linhas 3" },
+    { desktop: "/banners/linhas/c7.png", mobile: "/banners/linhas/c8.png", alt: "Linhas 3" },
+    { desktop: "/banners/linhas/c16.png", mobile: "/banners/linhas/c17.png", alt: "Linhas 4" },
 ];
 
 export default function LinhasSection() {
