@@ -14,28 +14,57 @@ type Quote = {
     timestamp?: number | null;
 };
 
-type Status = { aberto: boolean; label: string; hint: string };
+type Status = {
+    aberto: boolean;
+    label: string;
+    hint: string;
+};
 
 function getStatusAgora(): Status {
     const now = new Date();
-    const sp = new Date(now.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+    const sp = new Date(
+        now.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
+    );
 
-    const day = sp.getDay(); // 0 dom .. 6 sáb
+    const day = sp.getDay(); // 0 dom, 1 seg ... 6 sáb
     const minutes = sp.getHours() * 60 + sp.getMinutes();
 
-    // AJUSTE AQUI conforme seu horário real:
-    // Seg–Qui: 07:00–17:45 | Sex: 07:00–12:00 | Sáb/Dom: fechado
-    const segQui = minutes >= 7 * 60 && minutes <= (17 * 60 + 45);
-    const sex = minutes >= 7 * 60 && minutes <= 12 * 60;
+    const manha = minutes >= 7 * 60 && minutes < 12 * 60;
+    const almoco = minutes >= 12 * 60 && minutes < 13 * 60;
+    const tarde = minutes >= 13 * 60 && minutes < 17 * 60 + 45;
 
     const aberto =
-        (day >= 1 && day <= 4 && segQui) ||
-        (day === 5 && sex);
+        (day >= 1 && day <= 4 && (manha || tarde)) ||
+        (day === 5 && manha);
+
+    let hint = "Fora do horário";
+
+    if (aberto) {
+        if (day >= 1 && day <= 4) {
+            hint = manha ? "Aberto até 12:00" : "Aberto até 17:45";
+        } else if (day === 5) {
+            hint = "Aberto até 12:00";
+        }
+    } else {
+        if (day >= 1 && day <= 4 && almoco) {
+            hint = "Fechado para almoço • retorna às 13:00";
+        } else if (minutes < 7 * 60 && day >= 1 && day <= 5) {
+            hint = "Retorna às 07:00";
+        } else if (day >= 1 && day <= 3 && minutes >= 17 * 60 + 45) {
+            hint = "Retorna amanhã às 07:00";
+        } else if (day === 4 && minutes >= 17 * 60 + 45) {
+            hint = "Retorna sexta às 07:00";
+        } else if (day === 5 && minutes >= 12 * 60) {
+            hint = "Retorna segunda às 07:00";
+        } else if (day === 6 || day === 0) {
+            hint = "Retorna segunda às 07:00";
+        }
+    }
 
     return {
         aberto,
         label: aberto ? "Aberto agora" : "Fechado agora",
-        hint: aberto ? "Atendimento em andamento" : "Fora do horário",
+        hint,
     };
 }
 function formatBRL(v: number) {
@@ -75,16 +104,16 @@ function Sparkline({ values }: { values: number[] }) {
     );
 }
 
-function getOpenNow() {
-    const now = new Date();
-    const day = now.getDay(); // 0 dom, 6 sáb
-    const minutes = now.getHours() * 60 + now.getMinutes();
+// function getOpenNow() {
+//     const now = new Date();
+//     const day = now.getDay(); // 0 dom, 6 sáb
+//     const minutes = now.getHours() * 60 + now.getMinutes();
 
-    // Seg–Sex 08:00–18:00 | Sáb 08:00–12:00 | Dom fechado
-    if (day >= 1 && day <= 5) return minutes >= 8 * 60 && minutes < 18 * 60;
-    if (day === 6) return minutes >= 8 * 60 && minutes < 12 * 60;
-    return false;
-}
+//     // Seg–Sex 08:00–18:00 | Sáb 08:00–12:00 | Dom fechado
+//     if (day >= 1 && day <= 5) return minutes >= 8 * 60 && minutes < 18 * 60;
+//     if (day === 6) return minutes >= 8 * 60 && minutes < 12 * 60;
+//     return false;
+// }
 
 export default function InfoCards() {
     const [quote, setQuote] = useState<Quote | null>(null);
@@ -122,7 +151,16 @@ export default function InfoCards() {
         };
     }, []);
 
-    const openNow = useMemo(() => getOpenNow(), []);
+    const [status, setStatus] = useState<Status | null>(null);
+
+    useEffect(() => {
+        const update = () => setStatus(getStatusAgora());
+        update();
+
+        const id = window.setInterval(update, 30000);
+        return () => window.clearInterval(id);
+    }, []);
+    // const openNow = useMemo(() => getOpenNow(), []);
     const c1 = useInView<HTMLDivElement>();
     const c2 = useInView<HTMLDivElement>();
     const c3 = useInView<HTMLDivElement>();
@@ -188,71 +226,62 @@ export default function InfoCards() {
 
     return (
         <section className="mt-8">
-            <div className="grid gap-4 lg:grid-cols-12">
-                {/* Card 1 (lado esquerdo) */}
+            <div className="grid items-start gap-4 lg:grid-cols-12">
+                {/* Card 1 */}
                 <div
                     ref={c1.ref}
                     className={[
-                        "lg:col-span-4 bg-white/5 ring-1 ring-white/10 backdrop-blur p-5",
+                        "lg:col-span-4 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-5",
                         "transition-all duration-700 ease-out will-change-transform",
                         c1.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
                         "hover:-translate-y-1 hover:bg-white/10 hover:ring-white/20",
                         "motion-reduce:transition-none motion-reduce:transform-none",
                     ].join(" ")}
                 >
-                    {/** status aberto/fechado */}
-                    {(() => {
-                        const [status, setStatus] = useState<Status | null>(null);
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <p className="text-2xl font-black tracking-tight">Atendimento</p>
 
-                        useEffect(() => {
-                            const update = () => setStatus(getStatusAgora());
-                            update();
-                            const id = window.setInterval(update, 30_000);
-                            return () => window.clearInterval(id);
-                        }, []);
+                        {status && (
+                            <span
+                                className={[
+                                    "shrink-0 self-start rounded-full px-3 py-1 text-[11px] font-extrabold tracking-[0.18em] uppercase",
+                                    status.aberto
+                                        ? "bg-emerald-400/15 text-emerald-200 ring-1 ring-emerald-400/25"
+                                        : "bg-white/10 text-white/70 ring-1 ring-white/15",
+                                ].join(" ")}
+                            >
+                                {status.label}
+                            </span>
+                        )}
+                    </div>
 
-                        return (
-                            <>
-                                <div className="flex items-start justify-between gap-3">
-                                    <p className="mt-3 text-2xl font-black tracking-tight">Atendimento</p>
+                    <div className="mt-3 space-y-3 text-sm text-neutral-300">
+                        <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
+                            <div className="grid grid-cols-1 gap-2 border-b border-white/10 px-4 py-3 sm:grid-cols-[90px_1fr] sm:items-center sm:gap-4">
+                                <span className="font-semibold text-neutral-100">Seg–Qui</span>
+                                <span className="text-left leading-relaxed sm:text-right">
+                                    07:00–12:00
+                                    <span className="mx-2 hidden text-white/35 sm:inline">•</span>
+                                    <span className="block sm:inline">13:00–17:45</span>
+                                </span>
+                            </div>
 
-                                    {status && (
-                                        <span
-                                            className={[
-                                                "mt-3 shrink-0 rounded-full px-3 py-1 text-[11px] font-extrabold tracking-[0.18em] uppercase",
-                                                status.aberto
-                                                    ? "bg-emerald-400/15 text-emerald-200 ring-1 ring-emerald-400/25"
-                                                    : "bg-white/10 text-white/70 ring-1 ring-white/15",
-                                            ].join(" ")}
-                                        >
-                                            {status.label}
-                                        </span>
-                                    )}
-                                </div>
+                            <div className="grid grid-cols-1 gap-2 border-b border-white/10 px-4 py-3 sm:grid-cols-[90px_1fr] sm:items-center sm:gap-4">
+                                <span className="font-semibold text-neutral-100">Sex</span>
+                                <span className="text-left sm:text-right">07:00–12:00</span>
+                            </div>
 
-                                <div className="mt-3 space-y-2 text-sm text-neutral-300">
-                                    <p className="leading-relaxed">
-                                        <span className="inline-block whitespace-nowrap">
-                                            <span className="text-neutral-100 font-semibold">Seg–Qui:</span> 07:00–17:45
-                                        </span>
-                                        <span className="mx-2 text-white/35">•</span>
-                                        <span className="inline-block whitespace-nowrap">
-                                            <span className="text-neutral-100 font-semibold">Sex:</span> 07:00–12:00
-                                        </span>
-                                        <span className="mx-2 text-white/35">•</span>
-                                        <span className="inline-block whitespace-nowrap">
-                                            <span className="text-neutral-100 font-semibold">Sáb/Dom:</span> Fechado
-                                        </span>
-                                    </p>
+                            <div className="grid grid-cols-1 gap-2 px-4 py-3 sm:grid-cols-[90px_1fr] sm:items-center sm:gap-4">
+                                <span className="font-semibold text-neutral-100">Sáb/Dom</span>
+                                <span className="text-left sm:text-right">Fechado</span>
+                            </div>
+                        </div>
 
-                                    {status && <p className="text-xs text-white/50">{status.hint}</p>}
-                                </div>
-                            </>
-                        );
-                    })()}
+                        {status && <p className="text-xs text-white/50">{status.hint}</p>}
+                    </div>
                 </div>
 
-                {/* Card 2 (centro, “mais destacado”) */}
+                {/* Card 2 */}
                 <div
                     ref={c2.ref}
                     className={[
@@ -332,24 +361,6 @@ export default function InfoCards() {
                                 {updatedHour}
                             </p>
                         </div>
-
-                        {/* <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
-                            <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
-                                Máxima
-                            </p>
-                            <p className="mt-1 font-semibold text-neutral-200">
-                                {safeHigh !== null ? formatBRL(safeHigh) : "—"}
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
-                            <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
-                                Mínima
-                            </p>
-                            <p className="mt-1 font-semibold text-neutral-200">
-                                {safeLow !== null ? formatBRL(safeLow) : "—"}
-                            </p>
-                        </div> */}
                     </div>
 
                     <div className="relative z-10 mt-4 flex items-center justify-between text-[11px] text-neutral-500">
@@ -362,11 +373,11 @@ export default function InfoCards() {
                     </div>
                 </div>
 
-                {/* Card 3 (lado direito) */}
+                {/* Card 3 */}
                 <div
                     ref={c3.ref}
                     className={[
-                        "lg:col-span-4 bg-white/5 ring-1 ring-white/10 backdrop-blur p-5",
+                        "lg:col-span-4 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-5",
                         "transition-all duration-700 ease-out will-change-transform delay-200",
                         c3.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
                         "hover:-translate-y-1 hover:bg-white/10 hover:ring-white/20",
