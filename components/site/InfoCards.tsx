@@ -391,7 +391,7 @@ export default function InfoCards() {
                         </span>
                     </div>
 
-                    <p className="mt-3 text-2xl font-black tracking-tight">Orçamento sem enrolação</p>
+                    <p className="mt-3 text-2xl font-black tracking-tight">Orçamentos</p>
                     <p className="mt-2 text-sm text-neutral-300">
                         Envie sua lista (linha, medidas e quantidades) e a gente responde o mais rápido possível.
                     </p>
