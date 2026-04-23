@@ -15,7 +15,7 @@ const catalogos: Catalogo[] = [
         desc: "Linhas, sistemas e perfis para esquadrias e soluções estruturais.",
         year: "2026",
         badge: "",
-        cover: "banners/catalogos/capa1.png",
+        cover: "/banners/catalogos/capa1.png",
         file: "https://drive.google.com/file/d/1h_GDybD_7Du-mt_sGOkMTZREcUpY_QWu/view?usp=drive_link",
     },
     {
@@ -23,7 +23,7 @@ const catalogos: Catalogo[] = [
         desc: "Sistema premium com acabamento e encaixe pensados para o dia a dia.",
         year: "2026",
         badge: "",
-        cover: "banners/catalogos/capa3.png",
+        cover: "/banners/catalogos/capa3.png",
         file: "https://drive.google.com/file/d/1vYUZJicuP3yJUL4xJYrge8cmH6WrO0nl/view?usp=drive_link",
     },
     {
@@ -31,15 +31,23 @@ const catalogos: Catalogo[] = [
         desc: "Ferragens, vedação, consumíveis e complementos para fechar a obra.",
         year: "2026",
         badge: "",
-        cover: "banners/catalogos/capa2.png",
+        cover: "/banners/catalogos/capa2.png",
         file: "https://drive.google.com/file/d/1TYWHCDBgWYcIK3kovEfGMLaGwZzxcrnq/view?usp=drive_link",
+    },
+    {
+        title: "Catálogo Técnico",
+        desc: "Guilhotina Deslizante, Catálogo Técnico",
+        year: "2026",
+        badge: "",
+        cover: "/banners/catalogos/capa4.png",
+        file: "https://drive.google.com/file/d/15fcDI2UYwRf5xfRR_V5KMIr9mzMxQIRb/view?usp=sharing",
     },
 ];
 
 export default function CatalogosGrid() {
     return (
         <section className="mt-6">
-            <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 lg:grid-cols-4">
                 {catalogos.map((c) => (
                     <div
                         key={c.title}

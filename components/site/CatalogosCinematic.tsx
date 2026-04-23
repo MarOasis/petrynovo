@@ -31,6 +31,11 @@ export default function CatalogosCinematic() {
                 cover: "/banners/catalogos/ctg-ace1.png",
                 hrf: "https://drive.google.com/file/d/1TYWHCDBgWYcIK3kovEfGMLaGwZzxcrnq/view?usp=drive_link",
             },
+            {
+                name: "Catálogo  Técnico — 2026",
+                cover: "/banners/catalogos/ctg-tecnico.png",
+                hrf: "https://drive.google.com/file/d/15fcDI2UYwRf5xfRR_V5KMIr9mzMxQIRb/view?usp=sharing",
+            },
             
         ],
         []
