@@ -16,7 +16,7 @@ const catalogos: Catalogo[] = [
         year: "2026",
         badge: "",
         cover: "/banners/catalogos/capa1.png",
-        file: "https://drive.google.com/file/d/1h_GDybD_7Du-mt_sGOkMTZREcUpY_QWu/view?usp=drive_link",
+        file: "https://drive.google.com/file/d/1Oq3tlzbxbyEZj_ioNU2bNKY8NAQN0i_D/view?usp=sharing",
     },
     {
         title: "Catálogo Perfetta",
