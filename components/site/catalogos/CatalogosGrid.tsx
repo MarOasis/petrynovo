@@ -16,7 +16,7 @@ const catalogos: Catalogo[] = [
         year: "2026",
         badge: "",
         cover: "/banners/catalogos/capa1.png",
-        file: "https://drive.google.com/file/d/1Oq3tlzbxbyEZj_ioNU2bNKY8NAQN0i_D/view?usp=sharing",
+        file: "https://drive.google.com/file/d/1IBqyNoIFrJHRYwuIXa-Xb6bKYM8cFRPW/view?usp=sharing",
     },
     {
         title: "Catálogo Perfetta",
@@ -24,7 +24,7 @@ const catalogos: Catalogo[] = [
         year: "2026",
         badge: "",
         cover: "/banners/catalogos/capa3.png",
-        file: "https://drive.google.com/file/d/1vYUZJicuP3yJUL4xJYrge8cmH6WrO0nl/view?usp=drive_link",
+        file: "https://drive.google.com/file/d/1MR70jhPbC89k8KwotqXJQV7pctazh9a2/view?usp=sharing",
     },
     {
         title: "Catálogo de Acessórios",
@@ -32,7 +32,7 @@ const catalogos: Catalogo[] = [
         year: "2026",
         badge: "",
         cover: "/banners/catalogos/capa2.png",
-        file: "https://drive.google.com/file/d/1TYWHCDBgWYcIK3kovEfGMLaGwZzxcrnq/view?usp=drive_link",
+        file: "https://drive.google.com/file/d/12hNlgacqjpPmQRWMvI_w4-YA9vRk-CHG/view?usp=sharing",
     },
     {
         title: "Catálogo Técnico",
