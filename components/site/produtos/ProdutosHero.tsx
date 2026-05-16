@@ -32,7 +32,7 @@ export default function ProdutosHero() {
 
                         <a  target="_blank"
                             rel="noopener"
-                            href="https://drive.google.com/file/d/1h_GDybD_7Du-mt_sGOkMTZREcUpY_QWu/view?usp=drive_link"
+                            href="https://drive.google.com/file/d/1VHMdBkY3-d8myNzvCE0ykGvEMPxUp5yF/view?usp=sharing"
                             className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"
                         >
                             Catálogo Perfis
@@ -40,7 +40,7 @@ export default function ProdutosHero() {
 
                         <a  target="_blank"
                             rel="noopener"
-                            href="https://drive.google.com/file/d/1vYUZJicuP3yJUL4xJYrge8cmH6WrO0nl/view?usp=drive_link"
+                            href="https://drive.google.com/file/d/1CXW1tgNbYVI7Iw38BmSR5EaKdY3sslnp/view?usp=sharing"
                             className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"
                         >
                             Catálogo PERFETTA
@@ -48,10 +48,17 @@ export default function ProdutosHero() {
 
                         <a  target="_blank"
                             rel="noopener"
-                            href="https://drive.google.com/file/d/1TYWHCDBgWYcIK3kovEfGMLaGwZzxcrnq/view?usp=drive_link"
+                            href="https://drive.google.com/file/d/12hNlgacqjpPmQRWMvI_w4-YA9vRk-CHG/view?usp=sharing"
                             className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"
                         >
                             Catálogo Acessórios
+                        </a>
+                         <a  target="_blank"
+                            rel="noopener"
+                            href="https://drive.google.com/file/d/15fcDI2UYwRf5xfRR_V5KMIr9mzMxQIRb/view?usp=sharing"
+                            className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"
+                        >
+                            Catálogo Técnico
                         </a>
                     </div>
                 </div>
