@@ -12,7 +12,7 @@ export default function ContatoHero() {
                     </p>
 
                     <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
-                        Fale com a Petry, orçamento rápido, orientação certa e entrega no ritmo.
+                        Fale com a Petry, atendimento, orientação certa e entrega no ritmo.
                     </h1>
 
                     <p className="mt-4 max-w-3xl text-neutral-300 leading-relaxed">
@@ -27,7 +27,7 @@ export default function ContatoHero() {
                             rel="noopener"
                             className="rounded-2xl bg-emerald-400 px-5 py-3 font-extrabold text-black hover:brightness-110 transition"
                         >
-                            Orçar no WhatsApp →
+                            Chamar no WhatsApp →
                         </a>
 
                         <a

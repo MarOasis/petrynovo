@@ -69,13 +69,13 @@ export default function VisaoGeralSection() {
                             <div className="mt-5 flex flex-wrap gap-3">
                                 <a
                                     href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-                                        "Quero orçamento. Minha aplicação é: ____ | Linha/Item: ____ | Medidas: ____ | Quantidade: ____"
+                                        "Quero atendimento. Minha aplicação é: ____ | Produto: ____ | Quantidade: ____"
                                     )}`}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
                                 >
-                                    Orçar no WhatsApp →
+                                    Chamar no WhatsApp →
                                 </a>
                                 <a
                                     href="/catalogos"
@@ -104,7 +104,7 @@ export default function VisaoGeralSection() {
                         {
                             title: "QUEM ATENDEMOS",
                             text:
-                                "Serralheiros, vidraceiros, esquadrias, construtoras e indústria — com soluções completas para estruturas, fachadas e projetos sob medida.",
+                                "Serralheiros, vidraceiros, esquadrias, construtoras e indústria — com soluções completas para estruturas, fachadas e projetos personalizados.",
                         },
                     ].map((c, idx) => (
                         <article

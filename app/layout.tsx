@@ -2,8 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Distribuidora de Alumínios — Catálogo & Orçamentos",
-  description: "Distribuidora de alumínios e acessórios. Linhas, produtos, atendimento rápido e orçamento.",
+  title: "Distribuidora de Alumínios — Catálogo & Atendimento",
+  description: "Distribuidora de alumínios e acessórios. Linhas, produtos e atendimento.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

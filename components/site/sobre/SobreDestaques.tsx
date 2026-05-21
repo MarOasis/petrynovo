@@ -13,7 +13,7 @@ export default function SobreDestaques() {
         {
             k: "SUPORTE",
             t: "Atendimento que resolve",
-            d: "Ajuda rápida na escolha da linha, equivalências e complementos — do orçamento à entrega.",
+            d: "Ajuda na escolha da linha, equivalências e complementos — do atendimento à entrega.",
         },
     ];
 

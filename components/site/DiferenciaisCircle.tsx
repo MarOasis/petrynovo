@@ -7,11 +7,11 @@ type Item = { title: string; desc: string };
 
 const items: Item[] = [
     { title: "Pronta entrega de itens-chave", desc: "Perfis e acessórios com giro alto sempre priorizados no estoque." },
-    { title: "Agilidade no orçamento", desc: "Resposta rápida com itens, medidas e alternativas equivalentes." },
+    { title: "Atendimento", desc: "Resposta com itens e alternativas equivalentes." },
     { title: "Separação organizada", desc: "Conferência, identificação e cuidado para evitar erro na obra." },
     { title: "Suporte para escolha da linha", desc: "Ajuda na compatibilidade de linha, vedação, roldanas e acabamento." },
     { title: "Reposição e recorrência", desc: "Você não fica na mão quando o cliente pede “mais 2 barras”." },
-    { title: "Atendimento direto (WhatsApp)", desc: "Sem burocracia: do pedido à entrega, tudo simples." },
+    { title: "Atendimento direto (WhatsApp)", desc: "Sem burocracia: dos produtos à entrega, tudo simples." },
 ];
 
 function polarToPercent(cx: number, cy: number, r: number, angleDeg: number) {

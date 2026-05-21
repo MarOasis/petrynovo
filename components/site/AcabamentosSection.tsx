@@ -157,7 +157,7 @@ export default function DestaquesSection() {
                                 Perfis, acessórios e novidades
                             </h3>
                             <p className="mt-2 max-w-2xl text-sm sm:text-base text-neutral-200/80">
-                                Aqui você encontra perfis e acessórios que chegaram, linhas novas e acessórios mais pedidos.
+                                Aqui você encontra perfis e acessórios que chegaram, linhas novas e acessórios mais procurados.
                             </p>
                         </div>
 
@@ -204,13 +204,13 @@ export default function DestaquesSection() {
 
                         <a
                             href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-                                "Olá! Quero orçamento.\n• Item: ____\n• Linha/Modelo: ____\n• Cor: ____\n• Quantidade/Medidas: ____\n• Cidade: ____"
+                                "Olá! Quero atendimento.\n• Item: ____\n• Produto/Modelo: ____\n• Cor: ____\n• Quantidade: ____\n• Cidade: ____"
                             )}`}
                             target="_blank"
                             rel="noreferrer"
                             className="rounded-2xl bg-amber-400 px-5 py-3 text-sm font-extrabold text-emerald-950 hover:bg-neutral-200 transition"
                         >
-                            Pedir orçamento →
+                            Pedir ajuda →
                         </a>
                     </div>
                 </div>
@@ -229,8 +229,8 @@ function DestaqueCard({
     onHover: () => void;
 }) {
     const msg = encodeURIComponent(
-        `Quero orçamento:\n• Item: ${it.title}${it.subtitle ? " - " + it.subtitle : ""}\n• Categoria: ${it.category
-        }\n• Cor: ____\n• Quantidade/Medidas: ____\n• Cidade: ____`
+        `Quero atendimento:\n• Item: ${it.title}${it.subtitle ? " - " + it.subtitle : ""}\n• Categoria: ${it.category
+        }\n• Cor: ____\n• Quantidade: ____\n• Cidade: ____`
     );
 
     const card = (
@@ -308,7 +308,7 @@ function DestaqueCard({
                         rel="noreferrer"
                         className="rounded-2xl bg-amber-400 px-4 py-2 text-xs font-extrabold text-emerald-950 hover:bg-neutral-200 transition"
                     >
-                        Orçar →
+                        Pedir ajuda →
                     </a>
                 </div>
             </div>

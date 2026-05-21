@@ -12,7 +12,7 @@ export const banners = [
   {
     title: "Alumínio com entrega rápida e padrão premium",
     subtitle: "Perfis, acessórios e soluções para esquadrias — com atendimento que resolve.",
-    bullets: ["Corte sob medida", "Agilidade no orçamento", "Suporte técnico na compra"],
+    bullets: ["Corte personalizado", "Atendimento", "Suporte técnico na compra"],
   },
   {
     title: "Linhas completas para obra e indústria",
@@ -20,7 +20,7 @@ export const banners = [
     bullets: ["Opções preto, branco e amadeirado", "Itens à pronta entrega", "Reposição e lotes"],
   },
   {
-    title: "Catálogo organizado + pedido fácil",
+    title: "Catálogo organizado + escolha fácil",
     subtitle: "Seu cliente encontra rápido. Você fecha mais rápido.",
     bullets: ["Produtos por categoria", "Destaques da semana", "WhatsApp direto no CTA"],
   },

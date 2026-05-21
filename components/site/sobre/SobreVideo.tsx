@@ -32,7 +32,7 @@ export default function SobreVideo() {
                             href="/contato"
                             className="rounded-2xl bg-emerald-400 px-5 py-3 font-extrabold text-black hover:brightness-110 transition"
                         >
-                            Orçar no WhatsApp →
+                            Chamar no WhatsApp →
                         </a>
                         <a
                             href="/catalogos"

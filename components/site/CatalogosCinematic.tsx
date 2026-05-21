@@ -19,7 +19,7 @@ export default function CatalogosCinematic() {
             {
                 name: "Catálogo de Perfis — 2026",
                 cover: "/banners/catalogos/ctg-perfil.png",
-                hrf: "https://drive.google.com/file/d/1Bw623yPYGoNPLlGiS7mjsA9pxVOfhzen/view?usp=sharing",
+                hrf: "https://drive.google.com/file/d/1oh-fOKKuYc_8m7lIDT1ua6BjjkfEsICR/view?usp=sharing",
             },
             {
                 name: "Catálogo Perfetta — 2026",

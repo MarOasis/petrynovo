@@ -107,7 +107,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Orçar no WhatsApp
+                  Chamar no WhatsApp
                 </a>
               </div>
             </div>

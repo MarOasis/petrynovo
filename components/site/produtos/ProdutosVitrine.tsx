@@ -120,7 +120,7 @@ export default function ProdutosVitrine({
                     href="/contato"
                     className="rounded-2xl bg-emerald-500 px-6 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
                 >
-                    Pedir orçamento →
+                    Pedir ajuda →
                 </a>
                 <a
                     href="/catalogos"

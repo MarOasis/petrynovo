@@ -11,7 +11,7 @@ export default function FloatingWhatsApp() {
     const msg = useMemo(
         () =>
             encodeURIComponent(
-                "Quero orçamento. Linha/Item: ____ | Medidas: ____ | Quantidade: ____ | Cidade: ____"
+                "Quero atendimento. Produto: ____ | Quantidade: ____ | Cidade: ____"
             ),
         []
     );

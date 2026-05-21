@@ -13,9 +13,9 @@ const mosaicPool = [
 const services = [
   {
     tag: "OBRA RÁPIDA",
-    title: "Separação por pedido",
+    title: "Separação dos produtos",
     desc: "Identificação, conferência e cuidado para reduzir erro e ganhar tempo na instalação.",
-    bullets: ["Etiquetado por item", "Conferência antes de sair", "Organização por pedido"],
+    bullets: ["Etiquetado por item", "Conferência antes de sair", "Organização dos itens"],
     image: "/banners/servicos/1.jpeg",
   },
   {
@@ -35,8 +35,8 @@ const services = [
   {
     tag: "SEM BUROCRACIA",
     title: "Atendimento direto no WhatsApp",
-    desc: "Do orçamento ao pedido: simples, rápido e objetivo com acompanhamento do que importa.",
-    bullets: ["Resposta ágil", "Lista e medidas", "Status do pedido"],
+    desc: "Atendimento simples e objetivo com acompanhamento do que importa.",
+    bullets: ["Atendimento", "Lista de produtos", "Acompanhamento"],
     image: "/banners/servicos/24.png",
   },
 ];
@@ -44,12 +44,12 @@ const services = [
 function WhatsCTA() {
   return (
     <a
-      href="https://wa.me/5547992866123?text=Ol%C3%A1!%20Quero%20or%C3%A7ar%20perfis%20e%20acess%C3%B3rios."
+      href="https://wa.me/5547992866123?text=Ol%C3%A1!%20Quero%20atendimento%20para%20perfis%20e%20acess%C3%B3rios."
       target="_blank"
       rel="noopener"
       className="inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-black text-black hover:brightness-110 transition"
     >
-      Orçar no WhatsApp →
+      Chamar no WhatsApp →
     </a>
   );
 }
@@ -124,7 +124,7 @@ export default function ServicosPage() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               {[
-                "Orçamento rápido com alternativas",
+                "Atendimento com alternativas",
                 "Separação organizada e conferida",
                 "Reposição constante de itens-chave",
               ].map((t) => (

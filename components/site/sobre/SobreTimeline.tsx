@@ -12,7 +12,7 @@ type Item = {
 
 const items: Item[] = [
     { year: "1975", title: "Início do legado", text: "Fundação da serraria da família Petry, base do padrão e do detalhe.", img: "/banners/sobre/pp.webp" },
-    { year: "1982", title: "Especialização", text: "Primeiras esquadrias em madeira: técnica, medida e acabamento.", img: "/banners/sobre/pp2.webp" },
+    { year: "1982", title: "Especialização", text: "Primeiras esquadrias em madeira: técnica e acabamento.", img: "/banners/sobre/pp2.webp" },
     { year: "2004", title: "Transição para alumínio", text: "Evolução para atender escala e compatibilidade com consistência.", img: "/banners/sobre/pp3.webp" },
     { year: "2013", title: "Processos e repetição", text: "Organização, separação e reposição: distribuição que mantém a obra no ritmo.", img: "/banners/sobre/pp4.webp" },
     { year: "2015", title: "Mais estrutura", text: "Crescimento com controle e melhoria de atendimento e logística.", img: "/banners/sobre/pp5.webp" },

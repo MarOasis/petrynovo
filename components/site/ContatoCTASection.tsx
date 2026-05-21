@@ -24,10 +24,10 @@ export default function ContatoCTASection() {
                 <div className="relative grid gap-6 lg:grid-cols-[1.2fr_.8fr] items-center">
                     <div>
                         <p className="text-xs font-extrabold tracking-[0.22em] uppercase text-emerald-200/70">
-                            Vamos fechar seu orçamento?
+                            Vamos falar sobre seus produtos?
                         </p>
                         <h3 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
-                            Me diga a linha, medidas e quantidade.
+                            Informe o produto e a quantidade.
                         </h3>
                         <p className="mt-3 text-sm sm:text-base text-neutral-300 max-w-2xl">
                             Resposta rápida com alternativas equivalentes quando necessário pra você não perder
@@ -44,7 +44,7 @@ export default function ContatoCTASection() {
 
                             <a
                                 href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-                                    "Quero orçamento. Linha/Item: ____ | Medidas: ____ | Quantidade: ____ | Cidade: ____"
+                                    "Quero atendimento. Produto: ____ | Quantidade: ____ | Cidade: ____"
                                 )}`}
                                 target="_blank"
                                 rel="noreferrer"
@@ -65,11 +65,11 @@ export default function ContatoCTASection() {
                             <ul className="mt-4 space-y-3 text-sm text-neutral-300">
                                 <li className="flex gap-3">
                                     <span className="mt-1 h-2 w-2 rounded-full bg-emerald-400" />
-                                    Linha / modelo (ex: Suprema, Gold, Perfiles U)
+                                    Produto / modelo (ex: Suprema, Gold, Perfiles U)
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="mt-1 h-2 w-2 rounded-full bg-emerald-400" />
-                                    Medidas e quantidade (barras, metros, peças)
+                                    Quantidade desejada
                                 </li>
                                 <li className="flex gap-3">
                                     <span className="mt-1 h-2 w-2 rounded-full bg-emerald-400" />

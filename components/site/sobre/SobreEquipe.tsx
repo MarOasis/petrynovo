@@ -5,7 +5,7 @@ const team = [
     { name: "Roger", role: "Comercial / Relacionamento", text: "Orientar e propor soluções com total segurança.", img: "/sobre/equipe/2.jpg" },
     { name: "Emidio", role: "Controle de Qualidade", text: "Padrão e conferência para evitar retrabalho.", img: "/sobre/equipe/3.jpg" },
     { name: "Mario", role: "Responsável técnico", text: "Compatibilidade e montagem correta em cada etapa.", img: "/sobre/equipe/4.jpg" },
-    { name: "Renata", role: "Sucesso do Cliente", text: "Do orçamento à entrega — tudo simples e claro.", img: "/sobre/equipe/5.jpg" },
+    { name: "Renata", role: "Sucesso do Cliente", text: "Do atendimento à entrega — tudo simples e claro.", img: "/sobre/equipe/5.jpg" },
     { name: "Renan", role: "Produção", text: "Processo e organização para manter o giro alto.", img: "/sobre/equipe/6.jpg" },
 ];
 

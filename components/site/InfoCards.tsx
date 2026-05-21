@@ -385,15 +385,15 @@ export default function InfoCards() {
                     ].join(" ")}
                 >
                     <div className="flex items-center justify-between">
-                        <span className="text-xs text-neutral-300">Atendimento rápido</span>
+                        <span className="text-xs text-neutral-300">Atendimento</span>
                         <span className="text-xs font-bold px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-500/25">
                             WhatsApp
                         </span>
                     </div>
 
-                    <p className="mt-3 text-2xl font-black tracking-tight">Orçamentos</p>
+                    <p className="mt-3 text-2xl font-black tracking-tight">Atendimento</p>
                     <p className="mt-2 text-sm text-neutral-300">
-                        Envie sua lista (linha, medidas e quantidades) e a gente responde o mais rápido possível.
+                        Envie sua lista de produtos e quantidades que a gente responde o mais breve possível.
                     </p>
 
                     <a

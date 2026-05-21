@@ -10,7 +10,7 @@ type Cor = {
 };
 
 const CORES: Cor[] = [
-    { name: "Preto", hex: "#0A0A0A", note: "Moderno • muito pedido" },
+    { name: "Preto", hex: "#0A0A0A", note: "Moderno • muito procurado" },
     { name: "Fosco", hex: "#DADADA", note: "Elegante • visual clean" },
     { name: "Branco", hex: "#FFFFFF", note: "Versátil • alta saída" },
     { name: "Bronze", hex: "#5C4A2F", note: "Premium • fachada" },
@@ -42,7 +42,7 @@ export default function CoresSection() {
                         Cores disponíveis para pronta entrega
                     </h3>
                     <p className="mt-2 text-sm sm:text-base text-neutral-300 max-w-3xl mx-auto">
-                        Para acabamentos personalizados e combinações específicas, consulte a disponibilidade no orçamento.
+                        Para acabamentos personalizados e combinações específicas, consulte a disponibilidade com a equipe.
                     </p>
                 </div>
 
@@ -108,7 +108,7 @@ export default function CoresSection() {
                                 <p className="text-2xl font-black">{sel.name}</p>
                                 <p className="mt-2 text-sm text-neutral-300 leading-relaxed">{sel.note}</p>
                                 <p className="mt-3 text-xs text-neutral-400">
-                                    Pode variar conforme linha/lote. Confirme na hora do orçamento.
+                                    Pode variar conforme linha/lote. Confirme com a equipe.
                                 </p>
                             </div>
 

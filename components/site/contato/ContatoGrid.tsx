@@ -118,8 +118,8 @@ export default function ContatoGrid() {
             <div className="grid gap-4 lg:grid-cols-3">
                 <Card
                     label="WhatsApp"
-                    title="Orçamento rápido"
-                    text="Envie sua lista (linha + medidas) e retornamos com orientação e valores."
+                    title="Atendimento"
+                    text="Envie sua lista de produtos e retornamos com orientação e valores."
                     actionHref="https://wa.me/5547992866123"
                     actionText="Chamar no WhatsApp"
                 />

@@ -1,7 +1,7 @@
 const faqs = [
     {
-        q: "Como agilizar o orçamento?",
-        a: "Envie: linha (ex: Suprema/Gold), medida/quantidade e se precisa acessórios (roldanas, vedações, fechaduras).",
+        q: "Como agilizar o atendimento?",
+        a: "Envie: produto, quantidade e se precisa acessórios (roldanas, vedações, fechaduras).",
     },
     {
         q: "Vocês ajudam a escolher a linha?",

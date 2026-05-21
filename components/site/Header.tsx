@@ -47,7 +47,7 @@ export default function Header() {
             target="_blank"
             rel="noopener"
           >
-            Orçar no WhatsApp
+            Chamar no WhatsApp
           </a>
         </nav>
 
@@ -84,7 +84,7 @@ export default function Header() {
               target="_blank"
               rel="noopener"
             >
-              Orçar no WhatsApp
+              Chamar no WhatsApp
             </a>
           </div>
         </div>

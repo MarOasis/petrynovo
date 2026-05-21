@@ -11,7 +11,7 @@ const itens = [
     },
     {
         t: "Consistência",
-        d: "Você consegue repetir o mesmo padrão em novos pedidos, reposições e ampliações.",
+        d: "Você consegue repetir o mesmo padrão em novas compras, reposições e ampliações.",
     },
 ];
 
@@ -49,7 +49,7 @@ export default function PadraoPremium() {
                                 href="/contato"
                                 className="rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
                             >
-                                Pedir orçamento →
+                                Pedir ajuda →
                             </a>
                         </div>
                     </div>

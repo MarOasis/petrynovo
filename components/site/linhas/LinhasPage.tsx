@@ -185,7 +185,7 @@ export default function LinhasPage() {
                             Mais do que vender alumínio: entregar segurança na compra.
                         </h2>
                         <p className="mt-3 max-w-3xl text-sm sm:text-base text-neutral-300">
-                            Se bater dúvida entre linhas, medidas, vedação ou compatibilidade, a gente orienta e indica o conjunto correto
+                            Se bater dúvida entre linhas, vedação ou compatibilidade, a gente orienta e indica o conjunto correto
                             com alternativas equivalentes quando fizer sentido.
                         </p>
 
@@ -194,7 +194,7 @@ export default function LinhasPage() {
                                 href="/contato"
                                 className="rounded-2xl bg-emerald-500 px-6 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
                             >
-                                WhatsApp e orçamento →
+                                Chamar no WhatsApp →
                             </a>
                             <a
                                 href="/catalogos"

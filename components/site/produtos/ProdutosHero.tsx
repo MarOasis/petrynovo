@@ -32,7 +32,7 @@ export default function ProdutosHero() {
 
                         <a  target="_blank"
                             rel="noopener"
-                            href="https://drive.google.com/file/d/1Bw623yPYGoNPLlGiS7mjsA9pxVOfhzen/view?usp=sharing"
+                            href="https://drive.google.com/file/d/1oh-fOKKuYc_8m7lIDT1ua6BjjkfEsICR/view?usp=sharing"
                             className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"
                         >
                             Catálogo Perfis
