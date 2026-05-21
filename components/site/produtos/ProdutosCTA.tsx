@@ -3,10 +3,6 @@
 const WHATSAPP = "5547992866123"; // troque aqui
 
 export default function ProdutosCTA() {
-    const msg = encodeURIComponent(
-        "Quero atendimento. Produto: ____ | Quantidade: ____ | Cidade: ____"
-    );
-
     return (
         <section className="mt-14">
             <div className="relative overflow-hidden rounded-3xl bg-neutral-950 ring-1 ring-white/10 p-7 sm:p-10">
@@ -34,7 +30,7 @@ export default function ProdutosCTA() {
                             Ir para contato →
                         </a>
                         <a
-                            href={`https://wa.me/${WHATSAPP}?text=${msg}`}
+                            href={`https://wa.me/${WHATSAPP}`}
                             target="_blank"
                             rel="noreferrer"
                             className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"

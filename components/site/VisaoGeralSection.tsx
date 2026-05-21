@@ -68,9 +68,7 @@ export default function VisaoGeralSection() {
 
                             <div className="mt-5 flex flex-wrap gap-3">
                                 <a
-                                    href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-                                        "Quero atendimento. Minha aplicação é: ____ | Produto: ____ | Quantidade: ____"
-                                    )}`}
+                                    href={`https://wa.me/${WHATSAPP}`}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"

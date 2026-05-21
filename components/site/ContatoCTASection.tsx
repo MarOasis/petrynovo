@@ -43,9 +43,7 @@ export default function ContatoCTASection() {
                             </a>
 
                             <a
-                                href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-                                    "Quero atendimento. Produto: ____ | Quantidade: ____ | Cidade: ____"
-                                )}`}
+                                href={`https://wa.me/${WHATSAPP}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="rounded-2xl bg-white/10 ring-1 ring-white/15 px-6 py-3 text-sm font-extrabold text-white hover:bg-white/15 transition"

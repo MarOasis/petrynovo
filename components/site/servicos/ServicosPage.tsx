@@ -44,7 +44,7 @@ const services = [
 function WhatsCTA() {
   return (
     <a
-      href="https://wa.me/5547992866123?text=Ol%C3%A1!%20Quero%20atendimento%20para%20perfis%20e%20acess%C3%B3rios."
+      href="https://wa.me/5547992866123"
       target="_blank"
       rel="noopener"
       className="inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-black text-black hover:brightness-110 transition"

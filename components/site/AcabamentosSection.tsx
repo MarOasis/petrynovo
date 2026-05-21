@@ -203,9 +203,7 @@ export default function DestaquesSection() {
                         </p>
 
                         <a
-                            href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(
-                                "Olá! Quero atendimento.\n• Item: ____\n• Produto/Modelo: ____\n• Cor: ____\n• Quantidade: ____\n• Cidade: ____"
-                            )}`}
+                            href={`https://wa.me/${WHATSAPP}`}
                             target="_blank"
                             rel="noreferrer"
                             className="rounded-2xl bg-amber-400 px-5 py-3 text-sm font-extrabold text-emerald-950 hover:bg-neutral-200 transition"
@@ -228,11 +226,6 @@ function DestaqueCard({
     active: boolean;
     onHover: () => void;
 }) {
-    const msg = encodeURIComponent(
-        `Quero atendimento:\n• Item: ${it.title}${it.subtitle ? " - " + it.subtitle : ""}\n• Categoria: ${it.category
-        }\n• Cor: ____\n• Quantidade: ____\n• Cidade: ____`
-    );
-
     const card = (
         <article
             onMouseEnter={onHover}
@@ -303,7 +296,7 @@ function DestaqueCard({
                     )}
 
                     <a
-                        href={`https://wa.me/${WHATSAPP}?text=${msg}`}
+                        href={`https://wa.me/${WHATSAPP}`}
                         target="_blank"
                         rel="noreferrer"
                         className="rounded-2xl bg-amber-400 px-4 py-2 text-xs font-extrabold text-emerald-950 hover:bg-neutral-200 transition"

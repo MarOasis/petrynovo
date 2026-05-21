@@ -1,20 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const WHATSAPP = "5547992866123"; // ex: 5547999999999
 
 export default function FloatingWhatsApp() {
     const [show, setShow] = useState(false);
     const [nearFooter, setNearFooter] = useState(false);
-
-    const msg = useMemo(
-        () =>
-            encodeURIComponent(
-                "Quero atendimento. Produto: ____ | Quantidade: ____ | Cidade: ____"
-            ),
-        []
-    );
 
     // aparece após rolar um pouco
     useEffect(() => {
@@ -43,7 +35,7 @@ export default function FloatingWhatsApp() {
 
     return (
         <a
-            href={`https://wa.me/${WHATSAPP}?text=${msg}`}
+            href={`https://wa.me/${WHATSAPP}`}
             target="_blank"
             rel="noreferrer"
             aria-label="Chamar no WhatsApp"
