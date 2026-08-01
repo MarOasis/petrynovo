@@ -18,22 +18,22 @@ export default function CatalogosCinematic() {
         () => [
             {
                 name: "Catálogo de Perfis — 2026",
-                cover: "/banners/catalogos/ctg-perfil.png",
+                cover: "/banners/catalogos/ctg-perfil.jpg",
                 hrf: "https://drive.google.com/file/d/1oh-fOKKuYc_8m7lIDT1ua6BjjkfEsICR/view?usp=sharing",
             },
             {
                 name: "Catálogo Perfetta — 2026",
-                cover: "/banners/catalogos/ctg-perfetta.png",
+                cover: "/banners/catalogos/ctg-perfetta.jpg",
                 hrf: "https://drive.google.com/file/d/1CXW1tgNbYVI7Iw38BmSR5EaKdY3sslnp/view?usp=sharing",
             },
             {
                 name: "Catálogo de Acessórios — 2026",
-                cover: "/banners/catalogos/ctg-ace1.png",
+                cover: "/banners/catalogos/ctg-ace1.jpg",
                 hrf: "https://drive.google.com/file/d/12hNlgacqjpPmQRWMvI_w4-YA9vRk-CHG/view?usp=sharing",
             },
             {
                 name: "Catálogo  Técnico — 2026",
-                cover: "/banners/catalogos/ctg-tecnico.png",
+                cover: "/banners/catalogos/ctg-tecnico.jpg",
                 hrf: "https://drive.google.com/file/d/15fcDI2UYwRf5xfRR_V5KMIr9mzMxQIRb/view?usp=sharing",
             },
             

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { TouchEvent } from "react";
 
@@ -10,9 +11,9 @@ type Slide = {
 };
 
 const DEFAULT_SLIDES: Slide[] = [
-  { desktop: "/banners/desktop/Banner15.png", mobile: "/banners/mobile/mb6.png", alt: "Banner 1" },
-  { desktop: "/banners/desktop/Banner12.png", mobile: "/banners/mobile/mb7.png", alt: "Banner 2" },
-  { desktop: "/banners/desktop/Banner13.png", mobile: "/banners/mobile/mb10.png", alt: "Banner 3" },
+  { desktop: "/banners/desktop/Banner15.jpg", mobile: "/banners/mobile/mb6.png", alt: "Banner 1" },
+  { desktop: "/banners/desktop/Banner12.jpg", mobile: "/banners/mobile/mb7.png", alt: "Banner 2" },
+  { desktop: "/banners/desktop/Banner13.jpg", mobile: "/banners/mobile/mb10.png", alt: "Banner 3" },
 ];
 
 type Props = {
@@ -26,17 +27,21 @@ type Props = {
 
   intervalMs?: number;
   transitionMs?: number;
+  priority?: boolean;
 };
 
-function PictureFill({ s }: { s: Slide }) {
+function PictureFill({ s, priority }: { s: Slide; priority?: boolean }) {
   return (
-    <picture>
+    <picture className="block h-full w-full">
       {s.mobile ? <source media="(max-width: 520px)" srcSet={s.mobile} /> : null}
-      <img
+      <Image
         src={s.desktop}
         alt={s.alt ?? "Banner"}
-        className="absolute inset-0 h-full w-full object-cover"
-        loading="lazy"
+        fill
+        priority={priority}
+        loading={priority ? undefined : "eager"}
+        sizes="100vw"
+        className="object-cover"
       />
     </picture>
   );
@@ -50,6 +55,7 @@ export default function BannerRotator({
   showDots = true,
   intervalMs = 4500,
   transitionMs = 780, // crossfade premium
+  priority = false,
 }: Props) {
   const data = useMemo(() => (slides?.length ? slides : DEFAULT_SLIDES), [slides]);
   const total = data.length;
@@ -130,7 +136,7 @@ export default function BannerRotator({
 
         {/* camada atual com animação premium */}
         <div key={animKey} className="absolute inset-0 cl-xfade-in">
-          <PictureFill s={cur} />
+          <PictureFill s={cur} priority={priority && i === 0} />
         </div>
 
         {showOverlay ? (

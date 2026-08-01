@@ -15,7 +15,7 @@ const catalogos: Catalogo[] = [
         desc: "Linhas, sistemas e perfis para esquadrias e soluções estruturais.",
         year: "2026",
         badge: "",
-        cover: "/banners/catalogos/capa1.png",
+        cover: "/banners/catalogos/capa1.jpg",
         file: "https://drive.google.com/file/d/1oh-fOKKuYc_8m7lIDT1ua6BjjkfEsICR/view?usp=sharing",
     },
     {
@@ -23,7 +23,7 @@ const catalogos: Catalogo[] = [
         desc: "Sistema premium com acabamento e encaixe pensados para o dia a dia.",
         year: "2026",
         badge: "",
-        cover: "/banners/catalogos/capa3.png",
+        cover: "/banners/catalogos/capa3.jpg",
         file: "https://drive.google.com/file/d/1CXW1tgNbYVI7Iw38BmSR5EaKdY3sslnp/view?usp=sharing",
     },
     {
