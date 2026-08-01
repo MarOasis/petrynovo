@@ -16,9 +16,9 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-neutral-950/70 backdrop-blur">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8] py-4 flex items-center gap-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-4">
         <Link href="/" className="flex flex-col items-center">
-          <img className="w-24 h-12 md:w-32 md:h-14" src="./banners/logo/logozin.png" alt="" />
+          <img className="w-24 h-12 md:w-32 md:h-14" src="/banners/logo/logozin.png" alt="Petry Distribuidora" />
           <div className="leading-tight">
             <p className="text-[14px] md:text-xl font-light text-center -mt-1 tracking-tight">DISTRIBUIDORA</p>
             <p className="text-[8px] md:text-xs text-[#FDFDFD] bg-[#01693A] lg:mb-1 -mt-0.2 p-1">Alumínios & Acessórios</p>
@@ -80,7 +80,7 @@ export default function Header() {
             ))}
             <a
               className="mt-2 px-4 py-3 rounded-xl text-sm font-extrabold bg-emerald-500 text-neutral-950 text-center"
-              href="https://wa.me/55SEUNUMERO"
+              href="https://wa.me/5547992866123"
               target="_blank"
               rel="noopener"
             >

@@ -23,8 +23,7 @@ export default function ProdutosHero() {
 
 
                     <div className="mt-7 flex flex-wrap gap-3">
-                        <a  target="blank"
-                            href="/catalogos"
+                        <a  href="/catalogos"
                             className="rounded-2xl bg-emerald-500 px-6 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
                         >
                             Ver catálogos →

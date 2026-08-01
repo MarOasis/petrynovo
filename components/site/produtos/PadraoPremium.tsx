@@ -60,10 +60,7 @@ export default function PadraoPremium() {
                                 key={x.t}
                                 className="rounded-3xl bg-white/5 ring-1 ring-white/10 p-5 sm:p-6"
                             >
-                                <p className="text-xs font-extrabold tracking-[0.22em] uppercase text-emerald-200/70">
-                                    {x.t}
-                                </p>
-                                <p className="mt-2 text-lg font-black tracking-tight">{x.t}</p>
+                                <p className="text-lg font-black tracking-tight">{x.t}</p>
                                 <p className="mt-2 text-sm text-neutral-300">{x.d}</p>
 
                                 <div className="mt-5 h-px w-full bg-gradient-to-r from-emerald-400/25 via-white/10 to-transparent" />
