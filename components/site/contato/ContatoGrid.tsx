@@ -43,32 +43,10 @@ function Card({
 }
 
 import { useEffect, useState } from "react";
-
-type Status = { aberto: boolean; label: string; hint: string };
-
-function getStatusLojaAgora(): Status {
-    const now = new Date();
-    const sp = new Date(now.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
-
-    const day = sp.getDay(); // 0 dom .. 6 sáb
-    const minutes = sp.getHours() * 60 + sp.getMinutes();
-
-    const segQui = minutes >= 7 * 60 && minutes <= (17 * 60 + 45);
-    const sex = minutes >= 7 * 60 && minutes <= 12 * 60;
-
-    const aberto =
-        (day >= 1 && day <= 4 && segQui) ||
-        (day === 5 && sex);
-
-    return {
-        aberto,
-        label: aberto ? "Aberto agora" : "Fechado agora",
-        hint: aberto ? "Atendimento em andamento" : "Fora do horário",
-    };
-}
+import { getStatusLojaAgora, type StatusLoja } from "@/lib/horarios";
 
 function HorariosCard() {
-    const [status, setStatus] = useState<Status | null>(null);
+    const [status, setStatus] = useState<StatusLoja | null>(null);
 
     useEffect(() => {
         const update = () => setStatus(getStatusLojaAgora());
@@ -98,7 +76,7 @@ function HorariosCard() {
             text={
                 <>
                     <p className="text-sm leading-relaxed">
-                        <span className="inline-block whitespace-nowrap">Seg–Qui: 07:00–17:45</span>
+                        <span className="inline-block whitespace-nowrap">Seg–Qui: 07:00–12:00 e 13:00–17:45</span>
                         <span className="mx-2 text-white/35">•</span>
                         <span className="inline-block whitespace-nowrap">Sex: 07:00–12:00</span>
                         <span className="mx-2 text-white/35">•</span>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useInView } from "@/components/site/useInView";
+import { getStatusLojaAgora, type StatusLoja } from "@/lib/horarios";
 import { useEffect, useMemo, useState } from "react";
 
 type Quote = {
@@ -14,59 +15,6 @@ type Quote = {
     timestamp?: number | null;
 };
 
-type Status = {
-    aberto: boolean;
-    label: string;
-    hint: string;
-};
-
-function getStatusAgora(): Status {
-    const now = new Date();
-    const sp = new Date(
-        now.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" })
-    );
-
-    const day = sp.getDay(); // 0 dom, 1 seg ... 6 sáb
-    const minutes = sp.getHours() * 60 + sp.getMinutes();
-
-    const manha = minutes >= 7 * 60 && minutes < 12 * 60;
-    const almoco = minutes >= 12 * 60 && minutes < 13 * 60;
-    const tarde = minutes >= 13 * 60 && minutes < 17 * 60 + 45;
-
-    const aberto =
-        (day >= 1 && day <= 4 && (manha || tarde)) ||
-        (day === 5 && manha);
-
-    let hint = "Fora do horário";
-
-    if (aberto) {
-        if (day >= 1 && day <= 4) {
-            hint = manha ? "Aberto até 12:00" : "Aberto até 17:45";
-        } else if (day === 5) {
-            hint = "Aberto até 12:00";
-        }
-    } else {
-        if (day >= 1 && day <= 4 && almoco) {
-            hint = "Fechado para almoço • retorna às 13:00";
-        } else if (minutes < 7 * 60 && day >= 1 && day <= 5) {
-            hint = "Retorna às 07:00";
-        } else if (day >= 1 && day <= 3 && minutes >= 17 * 60 + 45) {
-            hint = "Retorna amanhã às 07:00";
-        } else if (day === 4 && minutes >= 17 * 60 + 45) {
-            hint = "Retorna sexta às 07:00";
-        } else if (day === 5 && minutes >= 12 * 60) {
-            hint = "Retorna segunda às 07:00";
-        } else if (day === 6 || day === 0) {
-            hint = "Retorna segunda às 07:00";
-        }
-    }
-
-    return {
-        aberto,
-        label: aberto ? "Aberto agora" : "Fechado agora",
-        hint,
-    };
-}
 function formatBRL(v: number) {
     return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
 }
@@ -151,10 +99,10 @@ export default function InfoCards() {
         };
     }, []);
 
-    const [status, setStatus] = useState<Status | null>(null);
+    const [status, setStatus] = useState<StatusLoja | null>(null);
 
     useEffect(() => {
-        const update = () => setStatus(getStatusAgora());
+        const update = () => setStatus(getStatusLojaAgora());
         update();
 
         const id = window.setInterval(update, 30000);
