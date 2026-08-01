@@ -2,6 +2,7 @@ import CatalogosGrid from "@/components/site/catalogos/CatalogosGrid";
 
 export const metadata = {
     title: "Catálogos | Petry Distribuidora",
+    alternates: { canonical: "/catalogos" },
 };
 
 export default function CatalogosPage() {

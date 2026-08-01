@@ -8,6 +8,7 @@ export const metadata = {
   title: "Produtos | Petry Distribuidora",
   description:
     "Perfis e acessórios com padrão, compatibilidade e acabamento premium. Estoque com giro alto e suporte para escolha da linha.",
+  alternates: { canonical: "/produtos" },
 };
 
 export default function ProdutosPage() {

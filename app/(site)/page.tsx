@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import BannerRotator from "@/components/site/BannerRotator";
 import InfoCards from "@/components/site/InfoCards";
 import VisaoGeralSection from "@/components/site/VisaoGeralSection";
@@ -13,12 +14,19 @@ import ContatoCTASection from "@/components/site/ContatoCTASection";
 import { featuredProducts } from "@/lib/site";
 import Link from "next/link";
 
+export const metadata: Metadata = {
+  title: "Início | Petry Distribuidora",
+  description:
+    "Distribuição de alumínio e acessórios com padrão, reposição e suporte técnico para comprar certo e manter a obra no ritmo.",
+  alternates: { canonical: "/" },
+};
+
 export default function HomePage() {
   return (
     <div className="space-y-10">
       {/* Banner full-width (escapa do container do layout) */}
       <div className="relative left-1/2 -ml-[50vw] w-[100vw]">
-        <BannerRotator />
+        <BannerRotator priority />
       </div>
       <InfoCards />
       <VisaoGeralSection />
