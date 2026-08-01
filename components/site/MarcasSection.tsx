@@ -9,18 +9,18 @@ type Brand = {
 };
 
 const brands: Brand[] = [
-    { name: "Perfetta", logo: "/banners/parceiros/Ciser.png" },
-    { name: "Udinese", logo: "/banners/parceiros/Dxmax.png" },
-    { name: "Rotofer", logo: "/banners/parceiros/celsus.png" },
-    { name: "AluTech", logo: "/banners/parceiros/Colorsud.png" },
-    { name: "Suprema", logo: "/banners/parceiros/Emteco.png" },
-    { name: "Gold", logo: "/banners/parceiros/Perfisud.png" },
-    { name: "Linha 25", logo: "/banners/parceiros/Soprano (1).png" },
-    { name: "Fachada Cortina", logo: "/banners/parceiros/Stam.png" },
-    { name: "Conexões", logo: "/banners/parceiros/Udinese.png" },
-    { name: "Temperados", logo: "/banners/parceiros/Walplas.png" },
-    { name: "Policarbonato", logo: "/banners/parceiros/3F (1).png" },
-    { name: "Acessórios Premium", logo: "/banners/parceiros/Alushow (1).png" },
+    { name: "Ciser", logo: "/banners/parceiros/Ciser.png" },
+    { name: "Dxmax", logo: "/banners/parceiros/Dxmax.png" },
+    { name: "Celsus", logo: "/banners/parceiros/celsus.png" },
+    { name: "Colorsud", logo: "/banners/parceiros/Colorsud.png" },
+    { name: "Emteco", logo: "/banners/parceiros/Emteco.png" },
+    { name: "Perfisud", logo: "/banners/parceiros/Perfisud.png" },
+    { name: "Soprano", logo: "/banners/parceiros/Soprano (1).png" },
+    { name: "Stam", logo: "/banners/parceiros/Stam.png" },
+    { name: "Udinese", logo: "/banners/parceiros/Udinese.png" },
+    { name: "Walplas", logo: "/banners/parceiros/Walplas.png" },
+    { name: "3F", logo: "/banners/parceiros/3F (1).png" },
+    { name: "Alushow", logo: "/banners/parceiros/Alushow (1).png" },
 ];
 
 function Pill({ b }: { b: Brand }) {
