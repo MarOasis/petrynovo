@@ -18,7 +18,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-neutral-950/70 backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-4">
         <Link href="/" className="flex flex-col items-center">
-          <img className="w-16 h-8 md:w-24 md:h-10" src="/banners/logo/logozin.png" alt="Petry Distribuidora" />
+          <img className="w-28 h-[50px] md:w-36 md:h-[65px]" src="/banners/logo/logozin.png" alt="Petry Distribuidora" />
           <div className="leading-tight">
             <p className="text-[14px] md:text-xl font-light text-center -mt-1 tracking-tight">DISTRIBUIDORA</p>
             <p className="text-[8px] md:text-xs text-[#FDFDFD] bg-[#01693A] lg:mb-1 -mt-0.2 p-1">Alumínios & Acessórios</p>
