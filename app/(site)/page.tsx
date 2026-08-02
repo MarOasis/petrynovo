@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import BannerRotator from "@/components/site/BannerRotator";
+import Hero from "@/components/site/Hero";
 import InfoCards from "@/components/site/InfoCards";
 import VisaoGeralSection from "@/components/site/VisaoGeralSection";
 import LinhasSection from "@/components/site/LinhasSection";
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      {/* Banner full-width (escapa do container do layout) */}
+      {/* Hero full-width (escapa do container do layout) */}
       <div className="relative left-1/2 -ml-[50vw] w-[100vw]">
-        <BannerRotator priority />
+        <Hero />
       </div>
       <InfoCards />
       <VisaoGeralSection />
