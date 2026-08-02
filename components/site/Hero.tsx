@@ -127,18 +127,19 @@ export default function Hero() {
 
             {/* conteúdo */}
             <div className="relative z-20 mx-auto flex h-full max-w-7xl flex-col justify-center px-4 pb-8 sm:px-6 lg:px-8">
-                <div className="max-w-xl">
+                <div className="max-w-2xl">
                     <p className="font-mono-hero text-xs font-medium uppercase tracking-[0.32em] text-hero-brass">
                         Alumínio · Precisão · SC
                     </p>
 
-                    <h1 className="font-display mt-4 text-4xl font-bold leading-[1.05] tracking-tight text-hero-ivory sm:text-5xl lg:text-6xl">
-                        Luz, precisão
-                        <br />e alumínio.
+                    <h1 className="font-display mt-5 text-5xl font-bold leading-[0.98] tracking-tighter text-hero-ivory sm:text-6xl lg:text-7xl">
+                        Perfil certo.
+                        <br />
+                        <span className="text-hero-brass">Obra no prazo.</span>
                     </h1>
 
-                    <p className="mt-5 max-w-md text-sm text-hero-ivory/70 sm:text-base">
-                        Perfis, brises e acessórios com padrão técnico e acabamento consistente — do projeto à obra.
+                    <p className="mt-6 max-w-md text-base text-hero-ivory/70 sm:text-lg">
+                        Alumínio, brises e acessórios com padrão técnico e acabamento que não falha. Do estoque à obra.
                     </p>
 
                     {/* indicador de posição — só aparece com mais de 1 slide */}
