@@ -2,103 +2,19 @@
 
 import { useInView } from "@/components/site/useInView";
 import { getStatusLojaAgora, type StatusLoja } from "@/lib/horarios";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-type Quote = {
-    bid: number;
-    source?: string;
-    lastUpdatedAt?: string | null;
-    pctChange?: number | null;
-    varBid?: number | null;
-    high?: number | null;
-    low?: number | null;
-    timestamp?: number | null;
-};
+const WHATSAPP_NUMBER = "5547992866123";
 
-function formatBRL(v: number) {
-    return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
-}
-
-function Sparkline({ values }: { values: number[] }) {
-    const points = useMemo(() => {
-        if (values.length < 2) return "";
-        const min = Math.min(...values);
-        const max = Math.max(...values);
-        const h = 40;
-        const w = 100;
-        const denom = max - min || 1;
-
-        return values
-            .map((v, idx) => {
-                const x = (idx / (values.length - 1)) * w;
-                const y = h - ((v - min) / denom) * h;
-                return `${x.toFixed(2)},${y.toFixed(2)}`;
-            })
-            .join(" ");
-    }, [values]);
-
+function IconWhatsApp({ className }: { className?: string }) {
     return (
-        <svg viewBox="0 0 100 40" className="h-10 w-full">
-            <polyline
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                points={points}
-                className="text-emerald-300/90"
-            />
+        <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" className={className}>
+            <path d="M19.11 17.44c-.28-.14-1.66-.82-1.92-.91-.26-.1-.45-.14-.64.14-.19.28-.73.91-.9 1.1-.16.19-.33.21-.61.07-.28-.14-1.2-.44-2.28-1.4-.84-.75-1.4-1.68-1.56-1.96-.16-.28-.02-.43.12-.57.12-.12.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.47-.64-.48h-.55c-.19 0-.49.07-.75.35-.26.28-.99.97-.99 2.36s1.01 2.74 1.15 2.93c.14.19 2 3.05 4.84 4.27.68.29 1.21.46 1.62.59.68.22 1.31.19 1.8.12.55-.08 1.66-.68 1.9-1.34.23-.66.23-1.22.16-1.34-.07-.12-.26-.19-.54-.33zM16 3C8.83 3 3 8.83 3 16c0 2.28.61 4.51 1.77 6.48L3 29l6.7-1.74A12.94 12.94 0 0016 29c7.17 0 13-5.83 13-13S23.17 3 16 3zm0 23.5c-2.02 0-3.99-.54-5.7-1.57l-.41-.24-3.98 1.04 1.06-3.88-.27-.4A10.43 10.43 0 015.5 16C5.5 10.21 10.21 5.5 16 5.5S26.5 10.21 26.5 16 21.79 26.5 16 26.5z" />
         </svg>
     );
 }
 
-// function getOpenNow() {
-//     const now = new Date();
-//     const day = now.getDay(); // 0 dom, 6 sáb
-//     const minutes = now.getHours() * 60 + now.getMinutes();
-
-//     // Seg–Sex 08:00–18:00 | Sáb 08:00–12:00 | Dom fechado
-//     if (day >= 1 && day <= 5) return minutes >= 8 * 60 && minutes < 18 * 60;
-//     if (day === 6) return minutes >= 8 * 60 && minutes < 12 * 60;
-//     return false;
-// }
-
 export default function InfoCards() {
-    const [quote, setQuote] = useState<Quote | null>(null);
-    const [hist, setHist] = useState<number[]>([]);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        let alive = true;
-
-        async function load() {
-            try {
-                setError(null);
-                const r = await fetch("/api/quotes/usdbrl");
-                const j = await r.json();
-                if (!r.ok) throw new Error(j?.error || "Falha ao buscar cotação");
-
-                if (!alive) return;
-                setQuote(j);
-
-                setHist((prev) => {
-                    const next = [...prev, Number(j.bid)].filter((x) => Number.isFinite(x));
-                    return next.slice(-24); // guarda as últimas 24 leituras
-                });
-            } catch (e: any) {
-                if (!alive) return;
-                setError(e?.message || "Erro");
-            }
-        }
-
-        load();
-        const t = setInterval(load, 30_000); // “tempo real” (30s)
-        return () => {
-            alive = false;
-            clearInterval(t);
-        };
-    }, []);
-
     const [status, setStatus] = useState<StatusLoja | null>(null);
 
     useEffect(() => {
@@ -108,250 +24,110 @@ export default function InfoCards() {
         const id = window.setInterval(update, 30000);
         return () => window.clearInterval(id);
     }, []);
-    // const openNow = useMemo(() => getOpenNow(), []);
+
     const c1 = useInView<HTMLDivElement>();
     const c2 = useInView<HTMLDivElement>();
-    const c3 = useInView<HTMLDivElement>();
 
-    const isUp = (quote?.pctChange ?? 0) >= 0;
-
-    const safePctChange = typeof quote?.pctChange === "number" ? quote.pctChange : null;
-    const safeVarBid = typeof quote?.varBid === "number" ? quote.varBid : null;
-    const safeHigh = typeof quote?.high === "number" ? quote.high : null;
-    const safeLow = typeof quote?.low === "number" ? quote.low : null;
-
-    const statusText = error
-        ? error
-        : quote
-            ? safePctChange !== null && safeVarBid !== null
-                ? `${safePctChange.toFixed(2)}% (${safeVarBid.toFixed(4)})`
-                : quote.lastUpdatedAt
-                    ? `Atualizado em ${new Date(quote.lastUpdatedAt).toLocaleString("pt-BR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    })}`
-                    : "Cotação carregada"
-            : "Carregando cotação...";
-
-    const statusColor = error
-        ? "text-red-300"
-        : safePctChange !== null
-            ? safePctChange >= 0
-                ? "text-emerald-300"
-                : "text-red-300"
-            : "text-cyan-300";
-
-    const badgeText = error ? "indisponível" : quote ? "online" : "carregando";
-    const badgeClass = error
-        ? "bg-red-500/10 text-red-300 ring-red-400/20"
-        : quote
-            ? "bg-emerald-500/10 text-emerald-300 ring-emerald-400/20"
-            : "bg-white/10 text-neutral-200 ring-white/15";
-
-    const sourceLabel =
-        quote?.source === "currencyapi"
-            ? "API"
-            : quote?.source
-                ? quote.source
-                : "Mercado";
-
-    const updatedHour = quote?.lastUpdatedAt
-        ? new Date(quote.lastUpdatedAt).toLocaleTimeString("pt-BR", {
-            hour: "2-digit",
-            minute: "2-digit",
-        })
-        : "—";
-
-    const trendLabel =
-        safePctChange !== null
-            ? safePctChange >= 0
-                ? "Alta do dia"
-                : "Queda do dia"
-            : "Última leitura";
+    const aberto = status?.aberto ?? false;
 
     return (
         <section className="mt-8">
-            <div className="grid items-start gap-4 lg:grid-cols-12">
-                {/* Card 1 */}
+            <div className="grid items-stretch gap-5 lg:grid-cols-5">
+                {/* Painel: status ao vivo + horários */}
                 <div
                     ref={c1.ref}
                     className={[
-                        "lg:col-span-4 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-5",
+                        "cl-metal lg:col-span-2 rounded-3xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-6",
                         "transition-all duration-700 ease-out will-change-transform",
                         c1.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
-                        "hover:-translate-y-1 hover:bg-white/10 hover:ring-white/20",
                         "motion-reduce:transition-none motion-reduce:transform-none",
                     ].join(" ")}
                 >
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                        <p className="text-2xl font-black tracking-tight">Atendimento</p>
-
-                        {status && (
-                            <span
-                                className={[
-                                    "shrink-0 self-start rounded-full px-3 py-1 text-[11px] font-extrabold tracking-[0.18em] uppercase",
-                                    status.aberto
-                                        ? "bg-emerald-400/15 text-emerald-200 ring-1 ring-emerald-400/25"
-                                        : "bg-white/10 text-white/70 ring-1 ring-white/15",
-                                ].join(" ")}
-                            >
-                                {status.label}
-                            </span>
-                        )}
-                    </div>
-
-                    <div className="mt-3 space-y-3 text-sm text-neutral-300">
-                        <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
-                            <div className="grid grid-cols-1 gap-2 border-b border-white/10 px-4 py-3 sm:grid-cols-[90px_1fr] sm:items-center sm:gap-4">
-                                <span className="font-semibold text-neutral-100">Seg–Qui</span>
-                                <span className="text-left leading-relaxed sm:text-right">
-                                    07:00–12:00
-                                    <span className="mx-2 hidden text-white/35 sm:inline">•</span>
-                                    <span className="block sm:inline">13:00–17:45</span>
-                                </span>
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-2 border-b border-white/10 px-4 py-3 sm:grid-cols-[90px_1fr] sm:items-center sm:gap-4">
-                                <span className="font-semibold text-neutral-100">Sex</span>
-                                <span className="text-left sm:text-right">07:00–12:00</span>
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-2 px-4 py-3 sm:grid-cols-[90px_1fr] sm:items-center sm:gap-4">
-                                <span className="font-semibold text-neutral-100">Sáb/Dom</span>
-                                <span className="text-left sm:text-right">Fechado</span>
-                            </div>
-                        </div>
-
-                        {status && <p className="text-xs text-white/50">{status.hint}</p>}
-                    </div>
-                </div>
-
-                {/* Card 2 */}
-                <div
-                    ref={c2.ref}
-                    className={[
-                        "relative overflow-hidden rounded-[28px] lg:col-span-4 lg:-translate-y-3",
-                        "border border-white/10 bg-white/[0.06] backdrop-blur-xl p-5 md:p-6",
-                        "shadow-[0_0_0_1px_rgba(255,255,255,.04),0_20px_70px_rgba(0,0,0,.45)]",
-                        "transition-all duration-700 ease-out will-change-transform delay-100",
-                        c2.inView ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-7 scale-[0.98]",
-                        "hover:-translate-y-1 hover:bg-white/[0.08] hover:border-white/15",
-                        "motion-reduce:transition-none motion-reduce:transform-none",
-                    ].join(" ")}
-                >
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.16),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.10),transparent_24%)]" />
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-
-                    <div className="relative z-10 flex items-start justify-between gap-4">
-                        <div>
-                            <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-400">
-                                Cotação do dólar
-                            </p>
-                            <h3 className="mt-1 text-sm font-medium text-neutral-200">
-                                USD / BRL
-                            </h3>
-                        </div>
+                    <div className="flex items-start justify-between gap-3">
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-400">
+                            Atendimento
+                        </p>
 
                         <span
                             className={[
-                                "inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold ring-1",
-                                badgeClass,
+                                "inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] ring-1",
+                                aberto
+                                    ? "bg-emerald-400/15 text-emerald-200 ring-emerald-400/25"
+                                    : "bg-white/10 text-white/60 ring-white/15",
                             ].join(" ")}
                         >
-                            <span className="h-2 w-2 rounded-full bg-current opacity-90" />
-                            {badgeText}
+                            <span
+                                className={[
+                                    "h-2 w-2 rounded-full",
+                                    aberto ? "bg-emerald-400 cl-glow-pulse" : "bg-white/40",
+                                ].join(" ")}
+                            />
+                            {status ? status.label : "Consultando…"}
                         </span>
                     </div>
 
-                    <div className="relative z-10 mt-6 flex items-end justify-between gap-4">
-                        <div className="min-w-0">
-                            <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500">
-                                Valor atual
-                            </p>
-
-                            <p className="mt-2 text-4xl md:text-5xl font-black tracking-tight text-white">
-                                {quote ? formatBRL(quote.bid) : "—"}
-                            </p>
-
-                            <p className={["mt-3 text-sm font-semibold", statusColor].join(" ")}>
-                                {statusText}
-                            </p>
+                    <div className="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+                        <div className="grid grid-cols-1 gap-1 border-b border-white/10 px-4 py-3 sm:grid-cols-[92px_1fr] sm:items-center sm:gap-3">
+                            <span className="text-sm font-semibold text-neutral-100">Seg–Qui</span>
+                            <span className="text-sm text-neutral-300 sm:text-right">
+                                07:00–12:00 <span className="text-white/30">•</span> 13:00–17:45
+                            </span>
                         </div>
 
-                        <div className="w-28 md:w-36 shrink-0 rounded-2xl border border-white/10 bg-black/20 p-2">
-                            <div className="text-[10px] uppercase tracking-[0.18em] text-neutral-500 mb-2">
-                                Tendência
-                            </div>
-                            <div className="text-emerald-300/90">
-                                <Sparkline values={hist} />
-                            </div>
+                        <div className="grid grid-cols-1 gap-1 border-b border-white/10 px-4 py-3 sm:grid-cols-[92px_1fr] sm:items-center sm:gap-3">
+                            <span className="text-sm font-semibold text-neutral-100">Sex</span>
+                            <span className="text-sm text-neutral-300 sm:text-right">07:00–12:00</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-1 px-4 py-3 sm:grid-cols-[92px_1fr] sm:items-center sm:gap-3">
+                            <span className="text-sm font-semibold text-neutral-100">Sáb/Dom</span>
+                            <span className="text-sm text-neutral-300 sm:text-right">Fechado</span>
                         </div>
                     </div>
 
-                    <div className="relative z-10 mt-5 grid grid-cols-2 gap-3 md:grid-cols-4">
-                        <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
-                            <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
-                                Fonte
-                            </p>
-                            <p className="mt-1 font-semibold text-neutral-200">
-                                {sourceLabel}
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-white/8 bg-black/20 px-3 py-3">
-                            <p className="text-[11px] uppercase tracking-[0.16em] text-neutral-500">
-                                Horário
-                            </p>
-                            <p className="mt-1 font-semibold text-neutral-200">
-                                {updatedHour}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="relative z-10 mt-4 flex items-center justify-between text-[11px] text-neutral-500">
-                        <span>{trendLabel}</span>
-                        <span className="truncate">
-                            {quote?.lastUpdatedAt
-                                ? `Leitura registrada em ${new Date(quote.lastUpdatedAt).toLocaleDateString("pt-BR")}`
-                                : "Sem registro de atualização"}
-                        </span>
-                    </div>
+                    {status && <p className="mt-3 text-xs text-white/50">{status.hint}</p>}
                 </div>
 
-                {/* Card 3 */}
+                {/* Painel: CTA WhatsApp */}
                 <div
-                    ref={c3.ref}
+                    ref={c2.ref}
                     className={[
-                        "lg:col-span-4 rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur p-5",
-                        "transition-all duration-700 ease-out will-change-transform delay-200",
-                        c3.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
-                        "hover:-translate-y-1 hover:bg-white/10 hover:ring-white/20",
+                        "relative overflow-hidden lg:col-span-3 rounded-3xl",
+                        "border border-white/10 bg-white/[0.06] backdrop-blur-xl p-6 md:p-8",
+                        "shadow-[0_0_0_1px_rgba(255,255,255,.04),0_20px_70px_rgba(0,0,0,.45)]",
+                        "transition-all duration-700 ease-out will-change-transform delay-100",
+                        c2.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
                         "motion-reduce:transition-none motion-reduce:transform-none",
                     ].join(" ")}
                 >
-                    <div className="flex items-center justify-between">
-                        <span className="text-xs text-neutral-300">Atendimento</span>
-                        <span className="text-xs font-bold px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-200 ring-1 ring-emerald-500/25">
-                            WhatsApp
-                        </span>
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,.18),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,.10),transparent_28%)]" />
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+
+                    <div className="relative z-10 flex h-full flex-col justify-center gap-6 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-start gap-4">
+                            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-300/20">
+                                <IconWhatsApp className="h-6 w-6" />
+                            </span>
+
+                            <div>
+                                <p className="text-2xl font-black tracking-tight text-white">
+                                    Fale agora no WhatsApp
+                                </p>
+                                <p className="mt-2 max-w-md text-sm text-neutral-300">
+                                    Envie sua lista de produtos e quantidades — a gente responde o mais breve possível, sem burocracia.
+                                </p>
+                            </div>
+                        </div>
+
+                        <a
+                            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                            target="_blank"
+                            rel="noopener"
+                            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-emerald-500 px-6 py-3.5 text-center font-extrabold text-neutral-950 transition hover:bg-emerald-400"
+                        >
+                            Chamar no WhatsApp
+                        </a>
                     </div>
-
-                    <p className="mt-3 text-2xl font-black tracking-tight">Atendimento</p>
-                    <p className="mt-2 text-sm text-neutral-300">
-                        Envie sua lista de produtos e quantidades que a gente responde o mais breve possível.
-                    </p>
-
-                    <a
-                        href="https://wa.me/5547992866123"
-                        target="_blank"
-                        rel="noopener"
-                        className="mt-4 inline-flex w-full justify-center rounded-2xl bg-emerald-500 px-5 py-3 font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
-                    >
-                        Chamar no WhatsApp
-                    </a>
                 </div>
             </div>
         </section>
