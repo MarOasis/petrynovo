@@ -129,7 +129,7 @@ Vou poder gerar variações de referência visual pra alinhar o mood antes de vo
 ## 7. Próximos passos
 
 1. ~~Validar esse direcionamento com você (paleta, tipografia, conceito de lâminas).~~ Feito — ver §8.
-2. Buscar/selecionar a imagem real (ou fazer moodboard de referência comigo). **Ainda pendente** — ver §8.
+2. ~~Buscar/selecionar a imagem real.~~ Feito — ver §9.
 3. ~~Escrever o componente do novo hero.~~ Feito — ver §8.
 
 ---
@@ -167,3 +167,25 @@ Decisões tomadas com o Marco antes de implementar (as 3 que ficavam em aberto n
 - Testado em `next build && next start` local via navegador: hero carrega, animação das lâminas dispara uma vez, sem texto de marketing vazando por trás, CTA do WhatsApp funciona, seção de cobertura logística renderiza corretamente, console limpo (sem erro de CSP), `/linhas` conferida sem efeito colateral.
 - Impacto de bundle: rota `/` foi de 108 kB → 151 kB de First Load JS (+43 kB, só nessa rota).
 - Revisão de segurança (skill `security-review`) rodada sobre o diff da Fase 1: nenhum achado. Fase 2 (carrossel + seção nova) é conteúdo estático equivalente, mesmo padrão.
+
+---
+
+## 9. Fase 3 — fotos reais (bloqueador do §5 resolvido)
+
+Marco enviou 10 fotos reais em `public/banners/hero-banner/` (`petry_banner_01` a `_10`, todas 2560×1440). Nenhuma é a foto de brise/veneziana com luz rasante que o documento original imaginava — são fotos reais do estoque, da fachada e de um caminhão da Petry — mas atendem ao espírito do pedido (fotografia real, não banco de imagem genérico, não gerada por IA) bem melhor que o placeholder da Fase 1.
+
+**As 3 usadas no `SLIDES` de `Hero.tsx`:**
+1. `petry_banner_01` — corredor do estoque, perfis empilhados até o teto, ponto de fuga central. A mais cinematográfica das 10.
+2. `petry_banner_08` — fachada da distribuidora ao entardecer, placa "PETRY DISTRIBUIDORA" visível. Dá uma "foto de identidade" real, mostra o lugar de verdade.
+3. `petry_banner_03` — close-up de perfis quadrados empacotados, tom quente. Textura/detalhe, contraste com as outras duas.
+
+**Descartadas:**
+- `_02`, `_04`, `_05`, `_06`, `_07` — variações muito parecidas com a `_01` (mesmos corredores, ângulos próximos) ou mais "documentais"/menos dramáticas; redundantes num carrossel de 3.
+- `_09` — variação mais clara/menos dramática da `_08`.
+- `_10` — foto do caminhão Petry. **Não usada no hero de propósito**: o próprio documento (§2, tabela de crítica do hero antigo) diz que uma imagem de caminhão "fala de logística, não do produto" e não deveria ser o "golpe visual" de abertura do site. Fica reservada como uma boa candidata pra ilustrar `components/site/CoberturaLogisticaSection.tsx` (que hoje é só texto) ou a página `/sobre`, se quiser usá-la depois — decisão de conteúdo, não técnica.
+
+**Ajustes feitos em `Hero.tsx` por causa das fotos reais:**
+- Scrim (gradiente escuro sobre a imagem) ficou mais leve que na Fase 1 — as fotos já são naturalmente escuras e não têm texto de marketing embutido pra esconder, então o gradiente forte da Fase 1 (pensado pro placeholder branco) deixaria as fotos apagadas.
+- `alt` de cada slide agora é uma frase descritiva própria (antes era um prefixo genérico "Perfis de alumínio Petry — ...").
+
+Com isso, os únicos itens do documento original que seguem em aberto são os do §8 (`Header.tsx` transparente, que ficou decidido não fazer) — a foto real e o carrossel, que eram os dois maiores bloqueadores, estão resolvidos.

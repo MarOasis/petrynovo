@@ -10,21 +10,34 @@ const LAMINA_COUNT = 7;
 
 type HeroSlide = {
     src: string;
-    /** accessible label for this slide's thumbnail/alt text */
+    /** short label for the thumbnail's aria-label */
     label: string;
+    /** full descriptive alt text for the main image */
+    alt: string;
     objectPosition?: string;
 };
 
-// TEMP placeholder: reuses the existing "Muxarabi" catalog render (the only asset in
-// the repo that is literally aluminum louvers), cropped/darkened to hide its baked-in
-// marketing copy. Add more entries here as real brise/veneziana/pele-de-vidro photos
-// become available per docs/PETRY_HERO_REDESIGN.md section 5 — the thumbnail nav below
-// only appears once there's more than one slide, so this is safe to extend at any time.
+// Real Petry photography (docs/PETRY_HERO_REDESIGN.md §5 resolved) — replaces the
+// Banner2.png catalog-render placeholder from Fase 1. More entries can be added here
+// any time; the thumbnail nav below only appears once there's more than one slide.
 const SLIDES: HeroSlide[] = [
     {
-        src: "/banners/desktop/Banner2.png",
-        label: "Brise / ripado Muxarabi",
-        objectPosition: "92% center",
+        src: "/banners/hero-banner/petry_banner_01_2560x1440.jpg",
+        label: "Corredor de estoque",
+        alt: "Corredor do estoque Petry, perfis de alumínio empilhados até o teto",
+        objectPosition: "center",
+    },
+    {
+        src: "/banners/hero-banner/petry_banner_08_2560x1440.jpg",
+        label: "Fachada",
+        alt: "Fachada da distribuidora Petry ao entardecer",
+        objectPosition: "center 30%",
+    },
+    {
+        src: "/banners/hero-banner/petry_banner_03_2560x1440.jpg",
+        label: "Detalhe dos perfis",
+        alt: "Detalhe de perfis de alumínio empacotados no estoque Petry",
+        objectPosition: "center",
     },
 ];
 
@@ -71,7 +84,7 @@ export default function Hero() {
                 >
                     <Image
                         src={slide.src}
-                        alt={`Perfis de alumínio Petry — ${slide.label}`}
+                        alt={slide.alt}
                         fill
                         priority
                         sizes="100vw"
@@ -81,9 +94,9 @@ export default function Hero() {
                 </motion.div>
             </AnimatePresence>
 
-            {/* scrim: escurece pra dar contraste cinematográfico e esconder texto de marketing embutido nas imagens de placeholder */}
-            <div className="absolute inset-0 bg-gradient-to-r from-hero-graphite from-0% via-hero-graphite via-50% to-hero-graphite/15 to-100%" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
+            {/* scrim: contraste pra legibilidade do texto à esquerda — mais leve que a Fase 1 porque as fotos reais já são escuras/sem texto embutido */}
+            <div className="absolute inset-0 bg-gradient-to-r from-hero-graphite/90 from-0% via-hero-graphite/45 via-45% to-hero-graphite/10 to-100%" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
 
             {/* elemento de assinatura: lâminas que abrem no load, tipo veneziana/brise real (só no load, não a cada troca de slide) */}
             {!reduceMotion && (
