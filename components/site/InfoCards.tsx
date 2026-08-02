@@ -114,7 +114,7 @@ export default function InfoCards() {
                                     Fale agora no WhatsApp
                                 </p>
                                 <p className="mt-2 max-w-md text-sm text-neutral-300">
-                                    Envie sua lista de produtos e quantidades — a gente responde o mais breve possível, sem burocracia.
+                                    Envie sua lista de produtos e quantidades a gente responde o mais breve possível, sem burocracia.
                                 </p>
                             </div>
                         </div>

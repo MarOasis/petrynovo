@@ -16,7 +16,7 @@ const catalogos: Catalogo[] = [
         year: "2026",
         badge: "",
         cover: "/banners/catalogos/capa1.jpg",
-        file: "https://drive.google.com/file/d/1oh-fOKKuYc_8m7lIDT1ua6BjjkfEsICR/view?usp=sharing",
+        file: "https://drive.google.com/file/d/1w7Y0WQ54x0ZKpfBuXvugBmwS5Gc36VuT/view?usp=sharing",
     },
     {
         title: "Catálogo Perfetta",
@@ -24,7 +24,7 @@ const catalogos: Catalogo[] = [
         year: "2026",
         badge: "",
         cover: "/banners/catalogos/capa3.jpg",
-        file: "https://drive.google.com/file/d/1CXW1tgNbYVI7Iw38BmSR5EaKdY3sslnp/view?usp=sharing",
+        file: "https://drive.google.com/file/d/1PaGJNqON9JZcScSC_78b4d1Ctmu0Br3b/view?usp=sharing",
     },
     {
         title: "Catálogo de Acessórios",
