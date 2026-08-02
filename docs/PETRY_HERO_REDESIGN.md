@@ -2,6 +2,17 @@
 
 **Objetivo:** substituir o hero atual (carrossel de 3 slides com fundo genérico tipo "burst" atrás de fotos de caminhão) por uma hero cinematográfica, única, elegante — que não pareça template nem "cara de IA" — usando o vocabulário visual real do negócio da Petry.
 
+**Status geral: concluído e publicado.** Todas as 4 fases (§8–§11) foram implementadas, validadas e enviadas para `origin/main`. Resumo rápido:
+
+| Fase | O quê | Status |
+|---|---|---|
+| 1 | Componente `Hero.tsx` do zero: paleta, tipografia, lâminas animadas, CTA | ✅ Concluída |
+| 2 | Carrossel manual por miniaturas + seção "Cobertura logística em SC" | ✅ Concluída |
+| 3 | Troca do placeholder pelas fotos reais da Petry | ✅ Concluída |
+| 4 | Copy final (headline/subtítulo) e ajuste de tamanho da logo no header | ✅ Concluída |
+
+Único item do documento original **não implementado por decisão deliberada**: navbar transparente/flutuante sobre o hero (§3) — motivo em §8.
+
 ---
 
 ## 1. Fundamentação (o que a Petry realmente vende)
@@ -136,7 +147,7 @@ Vou poder gerar variações de referência visual pra alinhar o mood antes de vo
 
 ## 8. Implementação — Fase 1 (Claude Code)
 
-**Status: construído e validado, rodando localmente. Não commitado, não publicado.**
+**Status: concluída, commitada e publicada** (`6fb89aa`).
 
 Decisões tomadas com o Marco antes de implementar (as 3 que ficavam em aberto no §7 original):
 
@@ -158,6 +169,8 @@ Decisões tomadas com o Marco antes de implementar (as 3 que ficavam em aberto n
 - **`BannerRotator.tsx` não foi tocado** — segue em uso em `LinhasSection.tsx` (carrossel "Persiana Integrada" etc., mais abaixo na home), fora do escopo deste pedido.
 
 ### Fase 2 — carrossel de miniaturas + seção de logística
+**Status: concluída, commitada e publicada** (`f1429bc`).
+
 - **Carrossel manual por miniaturas** (§3): implementado por completo em `Hero.tsx` (setas ‹ ›, miniaturas quadradas, indicador de posição, crossfade entre slides via Framer Motion). Levantamento mais aprofundado de imagens do repo mostrou que os dois "runners-up" cotados antes não servem: `banners/servicos/1.jpeg` é uma foto real de um funcionário identificável pela farda, em retrato, que ficaria cortada de forma ruim num banner largo (evitado por respeito à pessoa); `banners/linhas/4.png` é na verdade uma imagem verde sólida (sobra de chroma-key), não um render. Resultado: `SLIDES` em `Hero.tsx` tem **1 item só** por enquanto (`Banner2.png`). Toda a UI de navegação (setas/miniaturas/indicador) só aparece quando `SLIDES.length > 1` — hoje fica oculta automaticamente, sem precisar de nenhuma outra mudança quando as fotos reais forem adicionadas ao array.
 - **Mensagem "Cobertura logística em SC"**: o documento presumiu que já existia uma seção pra ela abaixo do hero — não existia (conferido por busca no código). Criado `components/site/CoberturaLogisticaSection.tsx`, uma faixa compacta (mesmo padrão visual de `ContatoHero.tsx`: `cl-glow-emerald`, card `rounded-3xl bg-white/5 ring-1 ring-white/10`) logo abaixo do `<Hero />` em `app/(site)/page.tsx`, com o texto original do slide antigo e CTA `tel:+554738421734` (mesmo link já usado em `ContatoHero.tsx`/`ContatoGrid.tsx`).
 
@@ -171,6 +184,8 @@ Decisões tomadas com o Marco antes de implementar (as 3 que ficavam em aberto n
 ---
 
 ## 9. Fase 3 — fotos reais (bloqueador do §5 resolvido)
+
+**Status: concluída, commitada e publicada** (`a17f842`).
 
 Marco enviou 10 fotos reais em `public/banners/hero-banner/` (`petry_banner_01` a `_10`, todas 2560×1440). Nenhuma é a foto de brise/veneziana com luz rasante que o documento original imaginava — são fotos reais do estoque, da fachada e de um caminhão da Petry — mas atendem ao espírito do pedido (fotografia real, não banco de imagem genérico, não gerada por IA) bem melhor que o placeholder da Fase 1.
 
@@ -189,3 +204,27 @@ Marco enviou 10 fotos reais em `public/banners/hero-banner/` (`petry_banner_01` 
 - `alt` de cada slide agora é uma frase descritiva própria (antes era um prefixo genérico "Perfis de alumínio Petry — ...").
 
 Com isso, os únicos itens do documento original que seguem em aberto são os do §8 (`Header.tsx` transparente, que ficou decidido não fazer) — a foto real e o carrossel, que eram os dois maiores bloqueadores, estão resolvidos.
+
+---
+
+## 10. Fase 4 — copy final e ajuste da logo do header
+
+**Status: concluída, commitada e publicada** (`cadffd0`, `d3fa470`, `99043b2`).
+
+Depois de ver o resultado com as fotos reais, Marco pediu mais impacto no texto do hero e ajustes na logo do header.
+
+### Copy do hero (`Hero.tsx`)
+- Headline trocado de "Luz, precisão e alumínio." (texto original do §3, poético) para **"Perfil certo. / Obra no prazo."** — mais direto, com a segunda linha em `hero-brass` (dourado/latão) pra dar peso visual sem precisar de um weight de fonte mais pesado (Space Grotesk vai só até 700).
+- Tamanho do headline aumentado (`text-4xl…6xl` → `text-5xl…7xl`) e tracking mais fechado (`tracking-tight` → `tracking-tighter`) pra mais impacto visual, como pedido.
+- Subtítulo reescrito **sem travessão** (pedido explícito — "para não parecer IA"): de "Perfis, brises e acessórios com padrão técnico e acabamento consistente — do projeto à obra." para "Alumínio, brises e acessórios com padrão técnico e acabamento que não falha. Do estoque à obra." (duas frases curtas em vez de uma frase com travessão).
+
+### Logo do header (`Header.tsx`)
+Passou por 3 ajustes na mesma sessão até bater com o pedido final ("aumentar a logo PETRY para ficar do mesmo tamanho de DISTRIBUIDORA / Alumínios & Acessórios", mantendo o texto do tamanho que estava):
+1. Reduzida uma vez (`w-24/h-12` → `w-20/h-10` mobile, `w-32/h-14` → `w-28/h-12` desktop).
+2. Reduzida de novo (`w-20/h-10` → `w-16/h-8` mobile, `w-28/h-12` → `w-24/h-10` desktop).
+3. Aumentada além do tamanho original, calculada pela proporção real do PNG (`481×217px`, ratio ≈2,22:1) num tamanho que visualmente combina com a largura do bloco de texto ao lado: `w-28 h-[50px]` mobile, `md:w-36 md:h-[65px]` desktop — só a imagem da logo mudou, o texto "DISTRIBUIDORA" / "Alumínios & Acessórios" não foi tocado em nenhum dos 3 ajustes.
+
+### Validação
+- `npx tsc --noEmit` e `npm run build` limpos em cada um dos 3 ajustes de logo e no ajuste de copy.
+- Testado visualmente via navegador (zoom na área do header) a cada mudança de tamanho da logo, comparando com a largura do texto ao lado.
+- Console limpo (só o erro de extensão do Chrome, não relacionado ao site) em todos os testes desta fase.
