@@ -154,14 +154,16 @@ Decisões tomadas com o Marco antes de implementar (as 3 que ficavam em aberto n
 
 ### O que ficou fora desta fase (deliberadamente)
 - **Foto real do produto.** Continua sendo o maior bloqueador — o placeholder atual é um render de catálogo, não a fotografia cinematográfica que o documento pede em §5.
-- **Carrossel manual por miniaturas** (§3). Exige múltiplas fotos reais coerentes entre si, que ainda não existem — fica pra quando a foto definitiva chegar.
-- **Mensagem "Cobertura logística em SC".** O documento original presumiu que ela migraria pra "uma seção própria logo abaixo do hero (como já existe)" — na prática **essa seção não existe** na home (conferido por busca no código). A mensagem foi removida do hero e não recriada em nenhum lugar. Fica em aberto: criar uma seção nova pra ela, incorporá-la em algum lugar já existente (ex: InfoCards, Serviços), ou descartá-la — decisão de negócio, não técnica.
 - **`Header.tsx` não foi tocado.** Ele já é `sticky` + `backdrop-blur` + fundo translúcido, o que já entrega a leitura "navbar sobre a imagem" pedida no documento, sem precisar tornar um componente usado nas outras 6 páginas do site condicional/transparente por conta de uma página só.
 - **`BannerRotator.tsx` não foi tocado** — segue em uso em `LinhasSection.tsx` (carrossel "Persiana Integrada" etc., mais abaixo na home), fora do escopo deste pedido.
 
+### Fase 2 — carrossel de miniaturas + seção de logística
+- **Carrossel manual por miniaturas** (§3): implementado por completo em `Hero.tsx` (setas ‹ ›, miniaturas quadradas, indicador de posição, crossfade entre slides via Framer Motion). Levantamento mais aprofundado de imagens do repo mostrou que os dois "runners-up" cotados antes não servem: `banners/servicos/1.jpeg` é uma foto real de um funcionário identificável pela farda, em retrato, que ficaria cortada de forma ruim num banner largo (evitado por respeito à pessoa); `banners/linhas/4.png` é na verdade uma imagem verde sólida (sobra de chroma-key), não um render. Resultado: `SLIDES` em `Hero.tsx` tem **1 item só** por enquanto (`Banner2.png`). Toda a UI de navegação (setas/miniaturas/indicador) só aparece quando `SLIDES.length > 1` — hoje fica oculta automaticamente, sem precisar de nenhuma outra mudança quando as fotos reais forem adicionadas ao array.
+- **Mensagem "Cobertura logística em SC"**: o documento presumiu que já existia uma seção pra ela abaixo do hero — não existia (conferido por busca no código). Criado `components/site/CoberturaLogisticaSection.tsx`, uma faixa compacta (mesmo padrão visual de `ContatoHero.tsx`: `cl-glow-emerald`, card `rounded-3xl bg-white/5 ring-1 ring-white/10`) logo abaixo do `<Hero />` em `app/(site)/page.tsx`, com o texto original do slide antigo e CTA `tel:+554738421734` (mesmo link já usado em `ContatoHero.tsx`/`ContatoGrid.tsx`).
+
 ### Validação
-- `npx tsc --noEmit` e `npm run build` limpos.
+- `npx tsc --noEmit` e `npm run build` limpos (Fase 1 e Fase 2).
 - `npm audit --omit=dev` inalterado (2 altas pré-existentes em `next`/`postcss`, nada relacionado a esta mudança).
-- Testado em `next build && next start` local via navegador: hero carrega, animação das lâminas dispara uma vez, sem texto de marketing vazando por trás, CTA do WhatsApp funciona, console limpo (sem erro de CSP — a CSP de produção não tem `unsafe-eval` e o Framer Motion não precisou dele), `/linhas` conferida sem efeito colateral (usa `BannerRotator`, componente separado).
-- Impacto de bundle: rota `/` foi de 108 kB → 148 kB de First Load JS (+40 kB, só nessa rota — as outras 6 páginas do site continuam exatamente como estavam).
-- Revisão de segurança (skill `security-review`) rodada sobre o diff completo desta fase: nenhum achado.
+- Testado em `next build && next start` local via navegador: hero carrega, animação das lâminas dispara uma vez, sem texto de marketing vazando por trás, CTA do WhatsApp funciona, seção de cobertura logística renderiza corretamente, console limpo (sem erro de CSP), `/linhas` conferida sem efeito colateral.
+- Impacto de bundle: rota `/` foi de 108 kB → 151 kB de First Load JS (+43 kB, só nessa rota).
+- Revisão de segurança (skill `security-review`) rodada sobre o diff da Fase 1: nenhum achado. Fase 2 (carrossel + seção nova) é conteúdo estático equivalente, mesmo padrão.

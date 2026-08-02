@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/site/Hero";
+import CoberturaLogisticaSection from "@/components/site/CoberturaLogisticaSection";
 import InfoCards from "@/components/site/InfoCards";
 import VisaoGeralSection from "@/components/site/VisaoGeralSection";
 import LinhasSection from "@/components/site/LinhasSection";
@@ -28,6 +29,7 @@ export default function HomePage() {
       <div className="relative left-1/2 -ml-[50vw] w-[100vw]">
         <Hero />
       </div>
+      <CoberturaLogisticaSection />
       <InfoCards />
       <VisaoGeralSection />
       <div className="-mx-4 sm:-mx-6 lg:-mx-8">
