@@ -11,9 +11,9 @@ type Slide = {
 };
 
 const DEFAULT_SLIDES: Slide[] = [
-  { desktop: "/banners/desktop/Banner15.jpg", mobile: "/banners/mobile/mb6.png", alt: "Banner 1" },
-  { desktop: "/banners/desktop/Banner12.jpg", mobile: "/banners/mobile/mb7.png", alt: "Banner 2" },
-  { desktop: "/banners/desktop/Banner13.jpg", mobile: "/banners/mobile/mb10.png", alt: "Banner 3" },
+  { desktop: "/banners/desktop/Banner15.jpg", alt: "Banner 1" },
+  { desktop: "/banners/desktop/Banner12.jpg", alt: "Banner 2" },
+  { desktop: "/banners/desktop/Banner13.jpg", alt: "Banner 3" },
 ];
 
 type Props = {
