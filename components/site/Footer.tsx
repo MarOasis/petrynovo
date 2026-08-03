@@ -22,9 +22,6 @@ export default function Footer() {
             {/* coluna 1: marca */}
             <div>
               <div className="inline-flex items-center gap-3">
-                <span className="h-10 w-10 rounded-2xl bg-hero-brass/15 ring-1 ring-hero-brass/25 grid place-items-center">
-                  <span className="h-4 w-4 rounded-full bg-hero-brass shadow-[0_0_24px_rgba(201,169,97,.5)]" />
-                </span>
                 <div className="leading-tight">
                   <p className="font-display text-lg font-black tracking-tight text-hero-ivory">
                     PETRY DISTRIBUIDORA
