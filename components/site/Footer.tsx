@@ -1,5 +1,7 @@
 "use client";
 
+import { heroDisplay, heroMono } from "@/lib/fonts";
+
 const WHATSAPP = "5547992866123"; // ex: 5547999999999
 const INSTAGRAM = "https://www.instagram.com/petry.distribuidora/";
 const FACEBOOK = "https://facebook.com/";
@@ -8,108 +10,142 @@ const X = "https://x.com/";
 
 export default function Footer() {
   return (
-    <footer id="site-footer" className="mt-14">
-      <div className="">
-        <div className="relative overflow-hidden bg-neutral-950 ring-1 ring-white/10">
-          {/* brilho leve no fundo */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_50%_20%,rgba(16,185,129,.18),transparent_60%)]" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+    <footer
+      id="site-footer"
+      className={[heroDisplay.variable, heroMono.variable, "mt-14"].join(" ")}
+    >
+      <div className="relative overflow-hidden bg-hero-graphite ring-1 ring-hero-aluminum/10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_50%_0%,rgba(201,169,97,.10),transparent_60%)]" />
 
-          <div className="relative px-6 py-10 sm:px-10 sm:py-12">
-            {/* topo (logo + nome) */}
-            <div className="flex flex-col items-center text-center">
+        <div className="relative px-6 py-14 sm:px-10 sm:py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+            {/* coluna 1: marca */}
+            <div>
               <div className="inline-flex items-center gap-3">
-                {/* “bolinha” premium */}
-                <span className="h-10 w-10 rounded-2xl bg-emerald-500/15 ring-1 ring-emerald-300/20 grid place-items-center">
-                  <span className="h-4 w-4 rounded-full bg-emerald-400 shadow-[0_0_30px_rgba(16,185,129,.55)]" />
+                <span className="h-10 w-10 rounded-2xl bg-hero-brass/15 ring-1 ring-hero-brass/25 grid place-items-center">
+                  <span className="h-4 w-4 rounded-full bg-hero-brass shadow-[0_0_24px_rgba(201,169,97,.5)]" />
                 </span>
-
                 <div className="leading-tight">
-                  <p className="text-lg font-black tracking-tight text-white">
+                  <p className="font-display text-lg font-black tracking-tight text-hero-ivory">
                     PETRY DISTRIBUIDORA
                   </p>
-                  <p className="text-xs font-semibold tracking-wide text-white/60">
-                    Alumínios & Acessórios
+                  <p className="text-xs font-semibold tracking-wide text-hero-aluminum">
+                    Alumínios &amp; Acessórios
                   </p>
                 </div>
               </div>
-
-              {/* menu */}
-              <nav className="mt-7">
-                <ul className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-bold text-white/80">
-                  <li>
-                    <a className="hover:text-white transition" href="/">
-                      Início
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white transition" href="/catalogos">
-                      catálogos
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white transition" href="/produtos">
-                      Produtos
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white transition" href="/linhas">
-                      Linhas
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white transition" href="/servicos">
-                      Serviços
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white transition" href="/sobre">
-                      Sobre
-                    </a>
-                  </li>
-                  <li>
-                    <a className="hover:text-white transition" href="/contato">
-                      Contato
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-
-              {/* sociais */}
-              <div className="mt-6 flex items-center gap-3">
+              <p className="mt-4 text-sm text-hero-aluminum leading-relaxed max-w-xs">
+                Distribuição de alumínio e acessórios com padrão para Joinville e região.
+              </p>
+              <div className="mt-5 flex items-center gap-3">
                 {/* <Social href={FACEBOOK} label="Facebook" icon={<IconFacebook />} /> */}
                 {/* <Social href={X} label="X" icon={<IconX />} /> */}
                 <Social href={INSTAGRAM} label="Instagram" icon={<IconInstagram />} />
                 {/* <Social href={LINKEDIN} label="LinkedIn" icon={<IconLinkedIn />} /> */}
-                <Social
-                  href={`https://wa.me/${WHATSAPP}`}
-                  label="WhatsApp"
-                  icon={<IconWhats />}
-                />
+                <Social href={`https://wa.me/${WHATSAPP}`} label="WhatsApp" icon={<IconWhats />} />
               </div>
             </div>
 
-            {/* linha + rodapé */}
-            <div className="mt-10 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            {/* coluna 2: navegação */}
+            <div>
+              <p className="font-mono-hero text-[11px] tracking-[0.15em] uppercase text-hero-brass mb-4">
+                Navegação
+              </p>
+              <ul className="space-y-2.5 text-sm font-semibold text-hero-aluminum">
+                <li>
+                  <a className="hover:text-hero-ivory transition" href="/">
+                    Início
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-hero-ivory transition" href="/catalogos">
+                    Catálogos
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-hero-ivory transition" href="/produtos">
+                    Produtos
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-hero-ivory transition" href="/linhas">
+                    Linhas
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-hero-ivory transition" href="/servicos">
+                    Serviços
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-hero-ivory transition" href="/sobre">
+                    Sobre
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-hero-ivory transition" href="/contato">
+                    Contato
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-white/50">
-              <p>© {new Date().getFullYear()} PETRY — Todos os direitos reservados.</p>
-              <div className="flex items-center gap-4">
-                <a className="hover:text-white/80 transition" href="/contato">
-                  Suporte
-                </a>
-                <a className="hover:text-white/80 transition" href="/sobre">
-                  Empresa
-                </a>
-                <a
-                  className="hover:text-white/80 transition"
-                  href={`https://wa.me/${WHATSAPP}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Chamar no WhatsApp
-                </a>
-              </div>
+            {/* coluna 3: contato */}
+            <div>
+              <p className="font-mono-hero text-[11px] tracking-[0.15em] uppercase text-hero-brass mb-4">
+                Contato
+              </p>
+              <address className="not-italic text-sm text-hero-aluminum leading-relaxed">
+                Rua Ronco Dágua, 2201
+                <br />
+                Itinga, Joinville - SC
+                <br />
+                89235-390
+              </address>
+              <a
+                href="tel:+554738421734"
+                className="mt-3 block text-sm text-hero-aluminum hover:text-hero-ivory transition"
+              >
+                (47) 3842-1734
+              </a>
+              <a
+                href={`https://wa.me/${WHATSAPP}`}
+                target="_blank"
+                rel="noreferrer"
+                className="block text-sm text-hero-aluminum hover:text-hero-ivory transition"
+              >
+                (47) 9 9286-6123
+              </a>
+              <a
+                href={`https://wa.me/${WHATSAPP}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-bold text-neutral-950 hover:bg-emerald-400 transition"
+              >
+                Chamar no WhatsApp →
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-12 h-px w-full bg-gradient-to-r from-transparent via-hero-aluminum/15 to-transparent" />
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-hero-aluminum/70">
+            <p>© {new Date().getFullYear()} PETRY — Todos os direitos reservados.</p>
+            <div className="flex items-center gap-4">
+              <a className="hover:text-hero-ivory transition" href="/contato">
+                Suporte
+              </a>
+              <a className="hover:text-hero-ivory transition" href="/sobre">
+                Empresa
+              </a>
+              <a
+                className="hover:text-hero-ivory transition"
+                href="https://atlaslabsbrasil.com.br"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Desenvolvido por Atlas Labs Brasil
+              </a>
             </div>
           </div>
         </div>
@@ -133,7 +169,7 @@ function Social({
       target="_blank"
       rel="noreferrer"
       aria-label={label}
-      className="h-10 w-10 rounded-2xl bg-white/5 ring-1 ring-white/10 grid place-items-center text-white/80 hover:text-white hover:bg-white/10 hover:ring-white/20 transition"
+      className="h-10 w-10 rounded-2xl bg-white/5 ring-1 ring-hero-aluminum/15 grid place-items-center text-hero-aluminum hover:text-hero-ivory hover:bg-white/10 hover:ring-white/20 transition"
       title={label}
     >
       {icon}

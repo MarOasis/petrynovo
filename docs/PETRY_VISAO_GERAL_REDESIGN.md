@@ -77,7 +77,7 @@ Além disso, o conteúdo da seção (Nossa Visão / Compromisso com o Padrão / 
 Cada card ganha uma **marca de canto tipo carimbo de ficha técnica**: um pequeno `⌐` (bracket de canto, feito em CSS puro com `border-top` + `border-left`, 16×16px, cor `hero-brass`) no canto superior esquerdo, alinhado com o eyebrow mono. É a mesma linguagem visual de canto de registro usada em desenho técnico/plantas — reforça "padrão" sem precisar de ícone importado. Substitui o hairline decorativo do rodapé (que não representa nada) por um elemento que representa literalmente "isto é uma especificação".
 
 Os eyebrows mono ganham textos técnicos reais em vez de repetir o título do card:
-- Card 1: `LIGA 6063 · REF. PADRÃO` (6063 é a liga de alumínio mais comum em esquadrias — dado real do setor, não enfeite)
+- Card 1: `DESDE 1975` (ano de fundação da Petry — dado real da empresa, não enfeite; substitui a sugestão original `LIGA 6063 · REF. PADRÃO`, trocada a pedido do Marco)
 - Card 2: `CONTROLE DE QUALIDADE`
 - Card 3: `SEGMENTOS ATENDIDOS`
 
