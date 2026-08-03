@@ -22,7 +22,7 @@ const config: Config = {
           900: "#064E3B",
           950: "#022C22",
         },
-        // Hero-only palette (docs/PETRY_HERO_REDESIGN.md) — additive, does not replace `brand`.
+        // Hero + Visão Geral palette (docs/PETRY_HERO_REDESIGN.md, docs/PETRY_VISAO_GERAL_REDESIGN.md) — additive, does not replace `brand`.
         hero: {
           graphite: "#0C0F0E",
           brass: "#C9A961",
@@ -31,7 +31,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Hero-only type scale — the rest of the site keeps its default font stack.
+        // Hero + Visão Geral type scale — the rest of the site keeps its default font stack.
         display: ["var(--font-hero-display)"],
         "mono-hero": ["var(--font-hero-mono)"],
       },

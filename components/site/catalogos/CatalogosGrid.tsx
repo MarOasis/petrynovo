@@ -31,7 +31,7 @@ const catalogos: Catalogo[] = [
         desc: "Ferragens, vedação, consumíveis e complementos para fechar a obra.",
         year: "2026",
         badge: "",
-        cover: "/banners/catalogos/capa2.png",
+        cover: "/banners/catalogos/capa2.jpg",
         file: "https://drive.google.com/file/d/12hNlgacqjpPmQRWMvI_w4-YA9vRk-CHG/view?usp=sharing",
     },
     {
@@ -39,7 +39,7 @@ const catalogos: Catalogo[] = [
         desc: "Guilhotina Deslizante, Catálogo Técnico",
         year: "2026",
         badge: "",
-        cover: "/banners/catalogos/capa4.png",
+        cover: "/banners/catalogos/capa4.jpg",
         file: "https://drive.google.com/file/d/15fcDI2UYwRf5xfRR_V5KMIr9mzMxQIRb/view?usp=sharing",
     },
 ];

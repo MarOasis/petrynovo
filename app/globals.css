@@ -71,7 +71,7 @@
   background: rgba(16,185,129,.28);
 }
 
-/* ===== Linhas Marquee (ticker) ===== */
+/* ===== Marquee (usado em /linhas — components/site/linhas/LinhasPage.tsx) ===== */
 @keyframes clMarquee {
   from {
     transform: translateX(0);
@@ -88,12 +88,10 @@
   position: relative;
 }
 
-/* track (sempre) */
 .cl-marquee-track {
   display: flex;
   width: max-content;
   animation: clMarquee 32s linear infinite;
-  /* velocidade (maior = mais lento) */
   will-change: transform;
 }
 
@@ -101,17 +99,10 @@
   flex: 0 0 auto;
 }
 
-
 .cl-marquee:hover .cl-marquee-track {
   animation-play-state: paused;
 }
 
-
-/* @media (prefers-reduced-motion: reduce) {
-  .cl-marquee-track {
-    animation: none;
-  }
-} */
 /* reduz movimento se preferir */
 @media (prefers-reduced-motion: reduce) {
   .cl-marquee-track {
@@ -156,12 +147,12 @@
 }
 /* destaque tipo “premium” (alguns itens) */
 .cl-pill--hi {
-  background: rgba(16, 185, 129, .12);
-  border-color: rgba(16, 185, 129, .25);
+  background: rgba(201, 169, 97, .14);
+  border-color: rgba(201, 169, 97, .30);
   color: rgba(255, 255, 255, 0.95);
   box-shadow:
     0 12px 35px rgba(0, 0, 0, .40),
-    0 0 0 8px rgba(16, 185, 129, .06);
+    0 0 0 8px rgba(201, 169, 97, .07);
 }
 
 @keyframes fadeIn {

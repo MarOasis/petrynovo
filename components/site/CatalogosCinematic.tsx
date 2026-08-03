@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "@/components/site/useInView";
+import { heroDisplay, heroMono } from "@/lib/fonts";
 
 type Cat = {
     name: string;
     cover: string;
-    hrf: string;
 };
 
 export default function CatalogosCinematic() {
@@ -16,27 +17,10 @@ export default function CatalogosCinematic() {
     // ✅ Para adicionar mais no futuro: só empilhe objetos aqui
     const cats = useMemo<Cat[]>(
         () => [
-            {
-                name: "Catálogo de Perfis — 2026",
-                cover: "/banners/catalogos/ctg-perfil.jpg",
-                hrf: "https://drive.google.com/file/d/1w7Y0WQ54x0ZKpfBuXvugBmwS5Gc36VuT/view?usp=sharing",
-            },
-            {
-                name: "Catálogo Perfetta — 2026",
-                cover: "/banners/catalogos/ctg-perfetta.jpg",
-                hrf: "https://drive.google.com/file/d/1PaGJNqON9JZcScSC_78b4d1Ctmu0Br3b/view?usp=sharing",
-            },
-            {
-                name: "Catálogo de Acessórios — 2026",
-                cover: "/banners/catalogos/ctg-ace1.jpg",
-                hrf: "https://drive.google.com/file/d/12hNlgacqjpPmQRWMvI_w4-YA9vRk-CHG/view?usp=sharing",
-            },
-            {
-                name: "Catálogo  Técnico — 2026",
-                cover: "/banners/catalogos/ctg-tecnico.jpg",
-                hrf: "https://drive.google.com/file/d/15fcDI2UYwRf5xfRR_V5KMIr9mzMxQIRb/view?usp=sharing",
-            },
-            
+            { name: "Catálogo de Perfis — 2026", cover: "/banners/catalogos/capa1.jpg" },
+            { name: "Catálogo Perfetta — 2026", cover: "/banners/catalogos/capa3.jpg" },
+            { name: "Catálogo de Acessórios — 2026", cover: "/banners/catalogos/capa2.jpg" },
+            { name: "Catálogo Técnico — 2026", cover: "/banners/catalogos/capa4.jpg" },
         ],
         []
     );
@@ -77,13 +61,15 @@ export default function CatalogosCinematic() {
         <section
             ref={wrap.ref}
             className={[
+                heroDisplay.variable,
+                heroMono.variable,
                 "mt-14",
                 "transition-all duration-700 ease-out",
                 wrap.inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3",
             ].join(" ")}
         >
             <div
-                className="relative overflow-hidden  ring-1 ring-white/10 bg-neutral-950"
+                className="relative overflow-hidden ring-1 ring-hero-aluminum/15 bg-hero-graphite"
                 onMouseEnter={() => setHoverPause(true)}
                 onMouseLeave={() => setHoverPause(false)}
             >
@@ -97,8 +83,8 @@ export default function CatalogosCinematic() {
                         sizes="100vw"
                         priority={false}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/85 via-neutral-950/35 to-neutral-950/70"  />
-                    <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_50%_20%,rgba(16,185,129,.18),transparent_60%)]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-hero-graphite/85 via-hero-graphite/35 to-hero-graphite/70" />
+                    <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_50%_20%,rgba(201,169,97,.14),transparent_60%)]" />
                     {/* Film grain */}
                     <div className="absolute inset-0 cl-grain pointer-events-none" />
                 </div>
@@ -108,10 +94,10 @@ export default function CatalogosCinematic() {
                     {/* topo minimal */}
                     <div className="flex items-end justify-between gap-4">
                         <div>
-                            <p className="text-xs font-extrabold tracking-[0.22em] uppercase text-emerald-200/70">
+                            <p className="font-mono-hero text-xs font-medium tracking-[0.22em] uppercase text-hero-brass">
                                 Catálogos
                             </p>
-                            <h3 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
+                            <h3 className="font-display mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-hero-ivory">
                                 Explore nossos catálogos
                             </h3>
                         </div>
@@ -124,110 +110,65 @@ export default function CatalogosCinematic() {
                                     onClick={() => go(idx)}
                                     aria-label={`Ir para catálogo ${idx + 1}`}
                                     className={[
-                                        "h-2.5 w-2.5  transition",
-                                        idx === i ? "bg-emerald-400" : "bg-white/35 hover:bg-white/45",
+                                        "h-2.5 w-2.5 transition",
+                                        idx === i ? "bg-hero-brass" : "bg-hero-aluminum/35 hover:bg-hero-aluminum/50",
                                     ].join(" ")}
                                 />
                             ))}
                         </div>
                     </div>
 
-                    {/* palco */}
-                    <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_.46fr] items-center">
-                        {/* capa grande */}
-                        <div className="relative">
-                            <div className="relative mx-auto w-full max-w-[920px]">
-                                <div className="relative aspect-[16/8.6] overflow-hidden bg-white/5">
-                                    {/* anterior */}
-                                    {prev ? (
-                                        <div className="absolute inset-0">
-                                            <Image
-                                                src={prev.cover}
-                                                alt=""
-                                                fill
-                                                className="object-cover"
-                                                sizes="(max-width: 1024px) 100vw, 70vw"
-                                            />
-                                        </div>
-                                    ) : null}
-
-                                    {/* atual */}
-                                    <div key={animKey} className="absolute inset-0 cl-cine-in cl-kenburns">
+                    {/* palco: capa retrato + coluna de navegação */}
+                    <div className="mt-6 grid gap-8 lg:grid-cols-[0.55fr_1fr] items-start">
+                        {/* capa grande (retrato — proporção real do catálogo) */}
+                        <div className="relative mx-auto w-full max-w-[340px] lg:max-w-none">
+                            <div className="relative aspect-[3/4] overflow-hidden bg-white/5">
+                                {/* anterior */}
+                                {prev ? (
+                                    <div className="absolute inset-0">
                                         <Image
-                                            src={cur.cover}
-                                            alt={cur.name}
+                                            src={prev.cover}
+                                            alt=""
                                             fill
                                             className="object-cover"
-                                            sizes="(max-width: 1024px) 100vw, 70vw"
-                                            priority={false}
+                                            sizes="(max-width: 1024px) 60vw, 30vw"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/35 via-transparent to-neutral-950/15" />
                                     </div>
+                                ) : null}
 
-                                    {/* título discreto */}
-                                    <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-                                        <p className="text-white/90 text-sm sm:text-base font-extrabold tracking-wide">
-                                            {cur.name}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* controles + botão único baixar */}
-                                <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => go(i - 1)}
-                                            className=" bg-white/10 ring-1 ring-white/15 px-4 py-2.5 text-sm font-extrabold text-white hover:bg-white/15 transition"
-                                            aria-label="Anterior"
-                                        >
-                                            ←
-                                        </button>
-                                        <button
-                                            onClick={() => go(i + 1)}
-                                            className=" bg-white/10 ring-1 ring-white/15 px-4 py-2.5 text-sm font-extrabold text-white hover:bg-white/15 transition"
-                                            aria-label="Próximo"
-                                        >
-                                            →
-                                        </button>
-                                    </div>
-
-                                    <a
-                                        href={cur.hrf}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className=" bg-emerald-500 px-6 py-3 text-sm font-extrabold text-neutral-950 hover:bg-emerald-400 transition"
-                                    >
-                                        Explorar catálogo →
-                                    </a>
+                                {/* atual */}
+                                <div key={animKey} className="absolute inset-0 cl-cine-in cl-kenburns">
+                                    <Image
+                                        src={cur.cover}
+                                        alt={cur.name}
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 1024px) 60vw, 30vw"
+                                        priority={false}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-hero-graphite/50 via-transparent to-transparent" />
                                 </div>
                             </div>
                         </div>
 
-                        {/* thumbs escaláveis */}
-                        <div className="min-w-0">
-                            <div
-                                className={[
-                                    "flex gap-3",
-                                    "overflow-x-auto lg:overflow-y-auto",
-                                    "lg:flex-col",
-                                    "lg:max-h-[420px] lg:pr-1",
-                                    "snap-x lg:snap-none",
-                                ].join(" ")}
-                            >
+                        {/* coluna direita: nome atual + thumbs + controles + CTA */}
+                        <div className="min-w-0 flex flex-col gap-6">
+                            <p className="font-display text-xl sm:text-2xl font-bold text-hero-ivory">
+                                {cur.name}
+                            </p>
+
+                            {/* thumbs — 4 itens, sem scroll */}
+                            <div className="grid grid-cols-4 gap-3">
                                 {cats.map((c, idx) => {
                                     const active = idx === i;
                                     return (
                                         <button
                                             type="button"
-                                            key={c.hrf}
+                                            key={c.cover}
                                             onClick={() => go(idx)}
                                             className={[
-                                                "relative overflow-hidden  ring-1 bg-white/5 transition",
-                                                active ? "ring-emerald-400/45" : "ring-white/10 hover:ring-white/20",
-                                                "shrink-0",
-                                                "w-[150px] sm:w-[180px] lg:w-full",
-                                                "h-[86px] sm:h-[96px] lg:h-[130px]",
-                                                "snap-start",
+                                                "relative aspect-[3/4] overflow-hidden ring-1 bg-white/5 transition",
+                                                active ? "ring-hero-brass/50" : "ring-white/10 hover:ring-white/20",
                                             ].join(" ")}
                                             aria-label={`Selecionar ${c.name}`}
                                         >
@@ -236,22 +177,48 @@ export default function CatalogosCinematic() {
                                                 alt={c.name}
                                                 fill
                                                 className="object-cover"
-                                                sizes="(max-width: 1024px) 40vw, 22vw"
+                                                sizes="(max-width: 1024px) 20vw, 12vw"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/35 via-transparent to-neutral-950/15" />
                                             {active ? (
-                                                <div className="absolute inset-0 ring-2 ring-emerald-400/35 " />
+                                                <div className="absolute inset-0 ring-2 ring-hero-brass/40" />
                                             ) : null}
                                         </button>
                                     );
                                 })}
                             </div>
 
-                            <p className="mt-3 text-xs text-neutral-400">
+                            <p className="text-xs text-hero-ivory/50">
                                 {effectivePaused ? "Pausado" : "Auto-play"}
                                 {" • "}
-                                Passe o mouse para pausar • No mobile, arraste as miniaturas
+                                Passe o mouse para pausar
                             </p>
+
+                            {/* controles + CTA */}
+                            <div className="flex flex-wrap items-center justify-between gap-3">
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => go(i - 1)}
+                                        className="bg-white/10 ring-1 ring-white/15 px-4 py-2.5 text-sm font-extrabold text-hero-ivory hover:bg-white/15 transition"
+                                        aria-label="Anterior"
+                                    >
+                                        ←
+                                    </button>
+                                    <button
+                                        onClick={() => go(i + 1)}
+                                        className="bg-white/10 ring-1 ring-white/15 px-4 py-2.5 text-sm font-extrabold text-hero-ivory hover:bg-white/15 transition"
+                                        aria-label="Próximo"
+                                    >
+                                        →
+                                    </button>
+                                </div>
+
+                                <Link
+                                    href="/catalogos"
+                                    className="bg-transparent ring-1 ring-hero-brass/70 px-6 py-3 text-sm font-extrabold text-hero-brass hover:bg-hero-brass/10 transition"
+                                >
+                                    Ver todos os catálogos →
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

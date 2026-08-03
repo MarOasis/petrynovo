@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { useInView } from "@/components/site/useInView";
+import { heroDisplay, heroMono } from "@/lib/fonts";
 
 type Item = { title: string; desc: string };
 
@@ -88,7 +89,7 @@ export default function DiferenciaisCircle() {
     const activeItem = items[active];
 
     return (
-        <section ref={wrap.ref} className="mt-12">
+        <section ref={wrap.ref} className={[heroDisplay.variable, heroMono.variable, "mt-12"].join(" ")}>
             <style>{`
         @keyframes clFadeUp {
           from { opacity: 0; transform: translateY(10px) scale(.985); filter: blur(1px); }
@@ -121,22 +122,23 @@ export default function DiferenciaisCircle() {
                         onMouseEnter={() => setPaused(true)}
                         onMouseLeave={() => setPaused(false)}
                     >
-                        {/* “órbita” */}
+                        {/* “órbita” — anel metálico (corte de tubo de alumínio) */}
                         <div className="absolute inset-0 grid place-items-center">
                             <div className="relative h-[60%] w-[60%] rounded-full motion-reduce:animate-none animate-[spin_28s_linear_infinite]">
-                                <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,.18),transparent_60%)]" />
-                                <div className="absolute inset-0 rounded-full border border-white/15 shadow-[0_0_0_10px_rgba(16,185,129,.06),0_0_80px_rgba(16,185,129,.12)]" />
+                                <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,#0C0F0E,#AEB4B2,#0C0F0E,#AEB4B2,#0C0F0E)] opacity-40" />
+                                <div className="absolute inset-[6px] rounded-full border border-hero-brass/30" />
+                                <div className="absolute inset-0 rounded-full border border-hero-aluminum/25 shadow-[0_8px_30px_rgba(0,0,0,.5)]" />
                             </div>
                         </div>
 
                         {/* conteúdo do centro */}
                         <div className="absolute inset-0 grid place-items-center">
                             <div key={centerKey} className="w-[58%] text-center cl-fade-up">
-                                <p className="text-xs font-extrabold tracking-[0.2em] text-emerald-200/80">
+                                <p className="font-mono-hero text-xs font-medium tracking-[0.2em] uppercase text-hero-brass">
                                     DIFERENCIAL ATIVO
                                 </p>
 
-                                <p className="mt-3 text-2xl font-black tracking-tight text-white">
+                                <p className="font-display mt-3 text-2xl font-bold tracking-tight text-hero-ivory">
                                     {activeItem.title}
                                 </p>
 
@@ -165,8 +167,8 @@ export default function DiferenciaisCircle() {
                                                 aria-pressed={isActive}
                                                 className={cn(
                                                     "h-2.5 w-2.5 rounded-full transition",
-                                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70",
-                                                    isActive ? "bg-emerald-400" : "bg-white/20 hover:bg-white/35"
+                                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-brass/70",
+                                                    isActive ? "bg-hero-brass" : "bg-white/20 hover:bg-white/35"
                                                 )}
                                             />
                                         );
@@ -199,14 +201,14 @@ export default function DiferenciaisCircle() {
                                             "flex items-center gap-3 rounded-2xl px-4 py-3",
                                             "ring-1 backdrop-blur transition",
                                             isActive
-                                                ? "bg-emerald-500/15 ring-emerald-500/30 shadow-[0_0_0_6px_rgba(16,185,129,.08)]"
+                                                ? "bg-hero-brass/12 ring-hero-brass/30 shadow-[0_0_0_6px_rgba(201,169,97,.08)]"
                                                 : "bg-white/5 ring-white/10 hover:bg-white/10 hover:ring-white/20"
                                         )}
                                     >
                                         <span
                                             className={cn(
                                                 "h-2.5 w-2.5 rounded-full transition",
-                                                isActive ? "bg-emerald-400" : "bg-white/35 group-hover:bg-white/60"
+                                                isActive ? "bg-hero-brass" : "bg-white/35 group-hover:bg-white/60"
                                             )}
                                         />
                                         <div className="min-w-0">
@@ -214,7 +216,7 @@ export default function DiferenciaisCircle() {
                                                 {it.title}
                                             </p>
                                             <p className="mt-1 text-xs text-neutral-400 line-clamp-1">
-                                                Clique para ver detalhes
+                                                {it.desc.length > 40 ? `${it.desc.slice(0, 40)}…` : it.desc}
                                             </p>
                                         </div>
                                     </div>
@@ -241,9 +243,9 @@ export default function DiferenciaisCircle() {
                                 aria-expanded={isOpen}
                                 className={cn(
                                     "w-full text-left rounded-3xl p-5 ring-1 backdrop-blur transition",
-                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70",
+                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-brass/70",
                                     isOpen || isActive
-                                        ? "bg-emerald-500/15 ring-emerald-500/30"
+                                        ? "bg-hero-brass/12 ring-hero-brass/30"
                                         : "bg-white/5 ring-white/10 hover:bg-white/10 hover:ring-white/20"
                                 )}
                             >
@@ -252,7 +254,7 @@ export default function DiferenciaisCircle() {
                                     <span
                                         className={cn(
                                             "h-2.5 w-2.5 rounded-full transition",
-                                            isOpen ? "bg-emerald-400" : "bg-white/35"
+                                            isOpen ? "bg-hero-brass" : "bg-white/35"
                                         )}
                                     />
                                 </div>

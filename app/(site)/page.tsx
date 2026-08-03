@@ -3,8 +3,9 @@ import Hero from "@/components/site/Hero";
 import CoberturaLogisticaSection from "@/components/site/CoberturaLogisticaSection";
 import InfoCards from "@/components/site/InfoCards";
 import VisaoGeralSection from "@/components/site/VisaoGeralSection";
-import LinhasSection from "@/components/site/LinhasSection";
-import LinhasMarquee from "@/components/site/LinhasMarquee";
+import TubosShowcase from "@/components/site/linhas/TubosShowcase";
+// substituído pela vitrine de tubos (docs/PETRY_TUBOS_SHOWCASE_REDESIGN.md) — mantido até validar em produção
+// import LinhasSection from "@/components/site/LinhasSection";
 // destaques
 // import AcabamentosSection from "@/components/site/AcabamentosSection";
 import CatalogosCinematic from "@/components/site/CatalogosCinematic";
@@ -32,10 +33,7 @@ export default function HomePage() {
       <CoberturaLogisticaSection />
       <InfoCards />
       <VisaoGeralSection />
-      <div className="-mx-4 sm:-mx-6 lg:-mx-8">
-        <LinhasSection />
-      </div>
-      <LinhasMarquee />
+      <TubosShowcase />
       {/* <AcabamentosSection /> destaques */}
       <CatalogosCinematic />
       <DiferenciaisCircle />
